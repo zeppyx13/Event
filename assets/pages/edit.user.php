@@ -1,27 +1,27 @@
 <?php
 session_start();
 require '../config/php/backend.php';
+$id = $_GET['id'];
 if (!isset($_SESSION['admin'])) {
     echo "<script>alert('akses ilegal');
     window.location='../'</script>";
     exit;
 }
-if (isset($_POST['add'])) {
-    if (adduser($_POST) > 0) {
-        echo "<script>
-      alert('Pinjaman di tambahkan');
-      document.location.href='../../admin/';
-      </script>
-      ";
-    }
-}
-$id = $_GET['id'];
 $userquery = query("SELECT * FROM hutang WHERE Id_hutang ='$id'")[0];
 $idtempat = $userquery['Id_tempat'];
 $iduser = $userquery['Id_user'];
 $lokasisblm = query("SELECT * FROM lokasi WHERE Id_lokasi = '$idtempat'")[0];
 $usersblm = query("SELECT * FROM user WHERE id = '$iduser'")[0];
 $lokasi = query("SELECT * FROM lokasi WHERE Id_lokasi != '$idtempat'");
+if (isset($_POST['add'])) {
+    if (edituser($_POST) > 0) {
+        echo "<script>
+      alert('Pinjaman di rubah');
+      document.location.href='./detail.user.php?id=$iduser';
+      </script>
+      ";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -57,6 +57,7 @@ $lokasi = query("SELECT * FROM lokasi WHERE Id_lokasi != '$idtempat'");
                     <div class="form h-100">
                         <h3>Edit Pinjaman</h3>
                         <form action="" class="mb-5" method="post" id="contactForm" enctype="multipart/form-data">
+                            <input class="d-none" type="text" value="<?= $id ?>" name="id">
                             <div class=" row">
                                 <div class="col-md-6 form-group mb-3">
                                     <label for="lokasi" class="col-form-label">User :</label>
@@ -110,7 +111,7 @@ $lokasi = query("SELECT * FROM lokasi WHERE Id_lokasi != '$idtempat'");
                                 <div class="file row d-none">
                                     <div class="col-md-12 form-group mt-4 mb-4">
                                         <label for="bukti" class="col-form-label">Bukti Pembayaran :</label>
-                                        <input required autocomplete="off" type="File" class="form-control" accept=".IMG,.JPG,.JPEG,.HEIC,.PNG" name="bukti" id="bukti">
+                                        <input autocomplete="off" type="File" class="form-control" accept=".IMG,.JPG,.JPEG,.HEIC,.PNG" name="bukti" id="bukti">
                                     </div>
                                 </div>
                             <?php } else { ?>
@@ -131,15 +132,19 @@ $lokasi = query("SELECT * FROM lokasi WHERE Id_lokasi != '$idtempat'");
                                         </div>
                                     </div>
                                 </div>
-                                <div class="file" class="row">
-                                    <div class="col-md-12 form-group mt-4 mb-4">
+                                <div class="file row">
+                                    <input class="d-none" type="text" name="buktiold" value="<?= $userquery['bukti'] ?>">
+                                    <div class="col-md-4 form-group mt-4 d-flex justify-content-center">
+                                        <a href="../bukti/<?= $userquery['bukti'] ?>" target="_blank" rel="noopener noreferrer"><img style="max-width: 70%; max-height:100%;" src="../bukti/<?= $userquery['bukti'] ?>" alt=""></a>
+                                    </div>
+                                    <div class="col-md-8 form-group mt-3">
                                         <label for="bukti" class="col-form-label">Bukti Pembayaran :</label>
-                                        <input required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                        <input autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
                                     </div>
                                 </div>
                             <?php } ?>
                             <div class="row">
-                                <div class="col-md-12 form-group">
+                                <div class="col-md-12 mt-5 form-group">
                                     <input type="submit" name="add" value="Edit Pinjaman" class="btn btn-primary rounded-0 py-2 px-4">
                                     <span class="submitting"></span>
                                 </div>
@@ -172,12 +177,10 @@ $lokasi = query("SELECT * FROM lokasi WHERE Id_lokasi != '$idtempat'");
 
         function Hilang() {
             file.classList.add('d-none');
-            inputF.removeAttribute('required');
         }
 
         function tambah() {
             file.classList.remove('d-none');
-            inputF.setAttribute('required', '');
         }
     </script>
 </body>

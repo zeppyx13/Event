@@ -116,6 +116,43 @@ function adduser($data)
     return mysqli_affected_rows($konek);
     exit;
 }
+// edit hutang user
+function edituser($data)
+{
+    global $konek;
+    $id = $data['id'];
+    $user = $data['user'];
+    $lokasi = $data['lokasi'];
+    $hutang = $data['hutang'];
+    $bayar = $data['bayar'];
+    $confirm = $data['metode'];
+    $keterangan = $data['ket'];
+    if ($lokasi == 'bkn') {
+        echo "
+        <script>
+        alert('insert valid value')
+        </script>
+        ";
+        return false;
+    }
+    if ($confirm == 'ada') {
+        $gambarlama = $data["buktiold"];
+        if ($_FILES['bukti']['error'] === 4) {
+            $gambar = $gambarlama;
+        } else {
+            $gambar = bukti();
+        }
+        $query = "UPDATE hutang SET Id_user = '$user', Id_tempat = '$lokasi', hutang= '$hutang', bayar='$bayar',bukti = '$gambar', keterangan = '$keterangan' WHERE Id_hutang = '$id'";
+        die;
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+        exit;
+    }
+    $query = "UPDATE hutang SET Id_user = '$user', Id_tempat = '$lokasi', hutang= '$hutang', bayar='$bayar', keterangan = '$keterangan' WHERE Id_hutang = '$id'";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+    exit;
+}
 // function update profile
 function Uprofile($data)
 {
