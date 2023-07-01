@@ -1,0 +1,26 @@
+<?php
+$year = date('Y');
+$Qjanuari = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '01' AND Year(tanggal)= '$year'")[0];
+$januari = (int)$convert = $Qjanuari["total"];
+$Qfebruari = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '02' AND Year(tanggal)= '$year'")[0];
+$februari = (int)$convert = $Qfebruari["total"];
+$Qmaret = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '03' AND Year(tanggal)= '$year'")[0];
+$maret = (int)$convert = $Qmaret["total"];
+$Qapril = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '04' AND Year(tanggal)= '$year'")[0];
+$april = (int)$convert = $Qapril["total"];
+$Qmei = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '05' AND Year(tanggal)= '$year'")[0];
+$mei = (int)$convert = $Qmei["total"];
+$Qjuni = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '06' AND Year(tanggal)= '$year'")[0];
+$juni = (int)$convert = $Qjuni["total"];
+$Qjuli = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '07' AND Year(tanggal)= '$year'")[0];
+$juli = (int)$convert = $Qjuli["total"];
+$Qagustus = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '08' AND Year(tanggal)= '$year'")[0];
+$agustus = (int)$convert = $Qagustus["total"];
+$Qseptember = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '09' AND Year(tanggal)= '$year'")[0];
+$september = (int)$convert = $Qseptember["total"];
+$Qoktober = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '10' AND Year(tanggal)= '$year'")[0];
+$oktober = (int)$convert = $Qoktober["total"];
+$Qnovember = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '11' AND Year(tanggal)= '$year'")[0];
+$november = (int)$convert = $Qnovember["total"];
+$Qdesember = query("SELECT COUNT(*) as total FROM lokasi WHERE Month(tanggal) = '12' AND Year(tanggal)= '$year'")[0];
+$desember = (int)$convert = $Qdesember["total"];
