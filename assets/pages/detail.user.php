@@ -212,6 +212,7 @@ $user = query("SELECT * FROM user WHERE id = '$id' ")[0];
     <script src="../js/core/bootstrap.min.js"></script>
     <script src="../js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {

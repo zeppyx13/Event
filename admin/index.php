@@ -8,20 +8,20 @@ if (!isset($_SESSION['admin'])) {
 }
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
-$loans = query("SELECT SUM(dibayar) AS TotalB FROM loans")[0];
 $users = query("SELECT * FROM user WHERE Email != 'gungnanda14@gmail.com'");
 $Qlokasi = query("SELECT Lokasi FROM lokasi");
 $Qlokasi_sama = query("SELECT Lokasi, COUNT(*) as Jumlah FROM Lokasi GROUP BY Lokasi HAVING COUNT(*) > 1");
 $Qlokasi_beda = query("SELECT DISTINCT Lokasi FROM lokasi");
-$pengeluaran = query("SELECT SUM(pengeluaran) AS TotalP FROM loans")[0];
+$bayar = query("SELECT SUM(bayar) AS TotalB FROM hutang")[0];
+$hutang = query("SELECT SUM(hutang) AS TotalP FROM hutang")[0];
 //
 $total_lokasi = count($Qlokasi);
 $totalsama = count($Qlokasi_sama);
 $totalbeda = count($Qlokasi_beda);
 // 
-$ftotalpengeluaran = number_format($pengeluaran['TotalP'], 0, ',', '.');
-$ftotadibayar = number_format($loans['TotalB'], 0, ',', '.');
-$fbelumdibayar = number_format($pengeluaran['TotalP'] - $loans['TotalB'], 0, ',', '.');
+$ftotalpengeluaran = number_format($hutang['TotalP'], 0, ',', '.');
+$ftotadibayar = number_format($bayar['TotalB'], 0, ',', '.');
+$fbelumdibayar = number_format($hutang['TotalP'] - $bayar['TotalB'], 0, ',', '.');
 ?>
 <!DOCTYPE html>
 <html lang="en">

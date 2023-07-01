@@ -143,7 +143,6 @@ function edituser($data)
             $gambar = bukti();
         }
         $query = "UPDATE hutang SET Id_user = '$user', Id_tempat = '$lokasi', hutang= '$hutang', bayar='$bayar',bukti = '$gambar', keterangan = '$keterangan' WHERE Id_hutang = '$id'";
-        die;
         mysqli_query($konek, $query);
         return mysqli_affected_rows($konek);
         exit;
