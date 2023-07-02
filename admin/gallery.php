@@ -145,7 +145,7 @@ $folder = query("SELECT * FROM folder");
         <?php foreach ($folder as $folder) : ?>
           <?php
           $id_folder = $folder['id'];
-          $foto = query("SELECT * FROM foto WHERE id_folder = '$id_folder'");
+          $foto = query("SELECT * FROM foto WHERE id_folder = '$id_folder' LIMIT 6");
           ?>
           <div class="col-12">
             <div class="card my-4">
@@ -158,7 +158,7 @@ $folder = query("SELECT * FROM folder");
                 <div class="row ms-4">
                   <?php foreach ($foto as $foto) : ?>
                     <div class="col-md-3 mb-4 mt-4 ms-4">
-                      <img class="ms-4" style="max-width: 200px; max-height:200px;" src="../assets/profile/<?= $foto['foto'] ?>" alt="<?= $foto['foto'] ?>" srcset="">
+                      <img class="ms-4" style="max-width: 200px; max-height:200px;" src="../assets/gallery/<?= $foto['foto'] ?>" alt="<?= $foto['foto'] ?>" srcset="">
                     </div>
                   <?php endforeach; ?>
                   <hr class="dark horizontal mb-2 my-0">

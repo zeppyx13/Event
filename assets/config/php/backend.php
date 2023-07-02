@@ -206,6 +206,19 @@ function Uprofile($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
+// function add foto
+function addfoto($data)
+{
+    global $konek;
+    $id_folder = $data['folder'];
+    $gambar = foto();
+    $query = "INSERT INTO foto VALUES('','$id_folder','$gambar')";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
+// 
+//  FUNCTION Gambar
+// 
 // function profile
 function foto_profile()
 {
@@ -286,6 +299,49 @@ function bukti()
     move_uploaded_file($tmpName, '../bukti/' . $namafilebaru);
     return $namafilebaru;
 }
+// function foto
+function foto()
+{
+    $namafile = $_FILES['foto']['name'];
+    $ukuranfile = $_FILES['foto']['size'];
+    $error = $_FILES['foto']['error'];
+    $tmpName = $_FILES['foto']['tmp_name'];
+    if ($error === 4) {
+        echo "
+        <script>
+        alert('insert image')
+        </script>
+        ";
+        return false;
+    }
+    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'heic', 'img'];
+    $ekstensigambar = explode('.', $namafile);
+    $ekstensigambar = strtolower(end($ekstensigambar));
+    if (!in_array($ekstensigambar, $filegambar)) {
+        echo "
+        <script>
+        alert('file not supported')
+        </script>
+        ";
+        return false;
+    }
+    if ($ukuranfile > 11000000) {
+        echo "
+        <script>
+        alert('file size not supported ')
+        </script>
+        ";
+        return false;
+    }
+    $namafilebaru = uniqid();
+    $namafilebaru .= '.';
+    $namafilebaru .= $ekstensigambar;
+    move_uploaded_file($tmpName, '../gallery/' . $namafilebaru);
+    return $namafilebaru;
+}
+// 
+//  FUNCTION Register
+// 
 // function registrasi
 function regis($data)
 {
