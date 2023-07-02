@@ -8,6 +8,7 @@ if (!isset($_SESSION['admin'])) {
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
 $season = query("SELECT * FROM deadline")[0];
+$folder = query("SELECT * FROM folder");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,6 +108,11 @@ $season = query("SELECT * FROM deadline")[0];
         </nav>
         <ul class="navbar-nav  justify-content-end">
           <li class="nav-item d-flex align-items-center">
+            <a href="">
+              <button class="btn btn-success btn-sm mb-0 me-3">add Folder</button>
+            </a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
             <button class="btn btn-outline-primary btn-sm mb-0 me-3">Season <?= $season['season'] ?> : <?= $season['tanggal'] ?>-<?= $season['bulan'] ?>-<?= $season['tahun'] ?></button>
           </li>
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -136,49 +142,41 @@ $season = query("SELECT * FROM deadline")[0];
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">kintamani</h6>
+        <?php foreach ($folder as $folder) : ?>
+          <?php
+          $id_folder = $folder['id'];
+          $foto = query("SELECT * FROM foto WHERE id_folder = '$id_folder'");
+          ?>
+          <div class="col-12">
+            <div class="card my-4">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                  <h6 class="text-white text-capitalize ps-3"><?= $folder['Nama_Folder'] ?></h6>
+                </div>
               </div>
-            </div>
-            <div class="card-body d-flex justify-content-center px-0 pb-2">
-              <div class="row ms-4">
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <hr class="dark horizontal mb-2 my-0">
-                <div class="footer d-flex justify-content-end">
-                  <a class=" me-4 " href="">More Photo's</a>
+              <div class="card-body d-flex justify-content-center px-0 pb-2">
+                <div class="row ms-4">
+                  <?php foreach ($foto as $foto) : ?>
+                    <div class="col-md-3 mb-4 mt-4 ms-4">
+                      <img class="ms-4" style="max-width: 200px; max-height:200px;" src="../assets/profile/<?= $foto['foto'] ?>" alt="<?= $foto['foto'] ?>" srcset="">
+                    </div>
+                  <?php endforeach; ?>
+                  <hr class="dark horizontal mb-2 my-0">
+                  <div style="float: left;" class=" mt-2 footer d-flex justify-content-start">
+                    <a class="me-4" target="_blank" href="<?= $folder['link'] ?>">More Photo's</a>
+                    <div class="action ms-auto">
+                      <a href=""><i class=" material-icons opacity-100">edit</i></a>
+                      <a onclick="return confirm('Yakin ingin menghapus hutang?')" href=""><i class=" material-icons opacity-100">delete</i></a>
+                      <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        <?php endforeach; ?>
       </div>
-      <footer class="footer py-4  ">
+      <footer class="footer py-4 mt-6">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -188,7 +186,7 @@ $season = query("SELECT * FROM deadline")[0];
                   document.write(new Date().getFullYear())
                 </script>,
                 made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                <a href="https://gungnanda.com" class="font-weight-bold" target="_blank">Gung Nanda</a>
                 for a better web.
               </div>
             </div>
