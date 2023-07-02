@@ -47,7 +47,8 @@ $user = query("SELECT * FROM user WHERE id = '$id' ")[0];
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group input-group-outline">
-                            <input placeholder="Cari Data pinjaman..." type="text" class="form-control">
+                            <input class="d-none" type="number" value="<?= $id ?>" id="iduser">
+                            <input id="keyword" placeholder="Cari Data pinjaman..." type="text" class="form-control">
                         </div>
                         <a href="./add.user.php?id=<?= $id ?>"><button class="btn btn-success ms-4 mt-3"><i class="d-flex justify-content-center  material-icons opacity-100">add</i></button></a>
                     </div>
@@ -111,7 +112,7 @@ $user = query("SELECT * FROM user WHERE id = '$id' ")[0];
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
+                            <div id="container" class=" table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
@@ -213,6 +214,7 @@ $user = query("SELECT * FROM user WHERE id = '$id' ")[0];
     <script src="../js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../js/plugins/smooth-scrollbar.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <script src="../config/js/user.js"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
