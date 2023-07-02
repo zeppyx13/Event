@@ -103,12 +103,12 @@ $user = query("SELECT * FROM user WHERE id = '$iduser' AND Email != 'gungnanda14
                             <div class="file" class="row">
                                 <div class="col-md-12 form-group mt-4 mb-4">
                                     <label for="bukti" class="col-form-label">Bukti Pembayaran :</label>
-                                    <input required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                    <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 form-group">
-                                    <input accept=".IMG,.JPG,.JPEG,.HEIC,.PNG," type="submit" name="add" value="Add Hutang" class="btn btn-primary rounded-0 py-2 px-4">
+                                    <input type="submit" name="add" value="Add Hutang" class="btn btn-primary rounded-0 py-2 px-4">
                                     <span class="submitting"></span>
                                 </div>
                             </div>

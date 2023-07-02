@@ -216,6 +216,16 @@ function addfoto($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
+// function add foto
+function addfolder($data)
+{
+    global $konek;
+    $nama = $data['nama'];
+    $link = $data['link'];
+    $query = "INSERT INTO folder VALUES('','$nama','$link')";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
 // 
 //  FUNCTION Gambar
 // 
@@ -234,7 +244,7 @@ function foto_profile()
         ";
         return false;
     }
-    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'heic', 'img'];
+    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'img'];
     $ekstensigambar = explode('.', $namafile);
     $ekstensigambar = strtolower(end($ekstensigambar));
     if (!in_array($ekstensigambar, $filegambar)) {
@@ -274,7 +284,7 @@ function bukti()
         ";
         return false;
     }
-    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'heic', 'img'];
+    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'img'];
     $ekstensigambar = explode('.', $namafile);
     $ekstensigambar = strtolower(end($ekstensigambar));
     if (!in_array($ekstensigambar, $filegambar)) {
@@ -314,7 +324,7 @@ function foto()
         ";
         return false;
     }
-    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'heic', 'img'];
+    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'img'];
     $ekstensigambar = explode('.', $namafile);
     $ekstensigambar = strtolower(end($ekstensigambar));
     if (!in_array($ekstensigambar, $filegambar)) {

@@ -139,7 +139,7 @@ if (isset($_POST['add'])) {
                                     </div>
                                     <div class="col-md-8 form-group mt-3">
                                         <label for="bukti" class="col-form-label">Bukti Pembayaran :</label>
-                                        <input autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
                                     </div>
                                 </div>
                             <?php } ?>

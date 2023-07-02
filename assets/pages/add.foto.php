@@ -63,7 +63,7 @@ $folder = query("SELECT * FROM folder WHERE id = '$id' ")[0];
                             <div class="file" class="row">
                                 <div class="col-md-12 form-group mt-4 mb-4">
                                     <label for="foto" class="col-form-label">Foto :</label>
-                                    <input accept=".IMG,.JPG,.JPEG,.HEIC,.PNG," required autocomplete="off" type="File" class="form-control" name="foto" id="foto">
+                                    <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="foto" id="foto">
                                 </div>
                             </div>
                             <div class="row">

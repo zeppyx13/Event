@@ -211,7 +211,7 @@ $season = query("SELECT * FROM deadline")[0];
                     </div>
                     <div class="col-6">
                       <div class="input-group input-group-outline my-3">
-                        <input accept=".IMG,.JPG,.JPEG,.HEIC,.PNG," autocomplete="off" name="img" type="file" class="form-control">
+                        <input accept=".IMG,.JPG,.JPEG,.PNG," autocomplete="off" name="img" type="file" class="form-control">
                       </div>
                     </div>
                     <div class="card-header pb-0 p-3">

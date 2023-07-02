@@ -108,7 +108,7 @@ $folder = query("SELECT * FROM folder");
         </nav>
         <ul class="navbar-nav  justify-content-end">
           <li class="nav-item d-flex align-items-center">
-            <a href="">
+            <a href="../assets/pages/add.folder.php">
               <button class="btn btn-success btn-sm mb-0 me-3">add Folder</button>
             </a>
           </li>
@@ -166,7 +166,7 @@ $folder = query("SELECT * FROM folder");
                     <a class="me-4" target="_blank" href="<?= $folder['link'] ?>">More Photo's</a>
                     <div class="action ms-auto">
                       <a href=""><i class=" material-icons opacity-100">edit</i></a>
-                      <a onclick="return confirm('Yakin ingin menghapus hutang?')" href=""><i class=" material-icons opacity-100">delete</i></a>
+                      <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.foto.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
                       <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
                     </div>
                   </div>
