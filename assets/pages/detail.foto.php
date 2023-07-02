@@ -111,7 +111,7 @@ $folder = query("SELECT * FROM folder WHERE id = '$id' ")[0];
                                                 <td class="text-center text-black"><img style="max-width: 200px; max-height:200px;" src="../gallery/<?= $row['foto'] ?>" alt=""></td>
                                                 <td class="text-center text-black">
                                                     <a href="./edit.user.php?id="><i class=" material-icons opacity-100">edit</i></a>
-                                                    <a onclick="return confirm('Yakin ingin menghapus hutang?')" href="./delete.user.php?"><i class=" material-icons opacity-100">delete</i></a>
+                                                    <a onclick="return confirm('Yakin ingin menghapus foto?')" href="./delete.foto.php?id_foto=<?= $row['id_foto'] ?>&id_folder=<?= $row['id_folder'] ?>"><i class=" material-icons opacity-100">delete</i></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; ?>

@@ -162,11 +162,11 @@ $folder = query("SELECT * FROM folder");
                     </div>
                   <?php endforeach; ?>
                   <hr class="dark horizontal mb-2 my-0">
-                  <div style="float: left;" class=" mt-2 footer d-flex justify-content-start">
+                  <div class=" mt-2 footer d-flex justify-content-start">
                     <a class="me-4" target="_blank" href="<?= $folder['link'] ?>">More Photo's</a>
                     <div class="action ms-auto">
-                      <a href=""><i class=" material-icons opacity-100">edit</i></a>
-                      <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.foto.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
+                      <a href="../assets/pages/edit.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
+                      <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
                       <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
                     </div>
                   </div>

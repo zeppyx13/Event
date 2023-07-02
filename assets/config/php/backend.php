@@ -216,13 +216,24 @@ function addfoto($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
-// function add foto
+// function add folder
 function addfolder($data)
 {
     global $konek;
     $nama = $data['nama'];
     $link = $data['link'];
     $query = "INSERT INTO folder VALUES('','$nama','$link')";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
+// function edit folder
+function Editfolder($data)
+{
+    global $konek;
+    $id_folder = $data['id_folder'];
+    $nama = $data['nama'];
+    $link = $data['link'];
+    $query = "UPDATE folder SET Nama_Folder = '$nama', link = '$link' WHERE id = '$id_folder' ";
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
