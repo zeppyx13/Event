@@ -237,7 +237,28 @@ function Editfolder($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
-// function edit folder
+// function edit season
+function editseason($data)
+{
+    global $konek;
+    $id = $data['id'];
+    $season = $data['season'];
+    $tgl = $data['tgl'];
+    $bulan = $data['bulan'];
+    $tahun = $data['tahun'];
+    if ($bulan == 'bkn') {
+        echo "
+        <script>
+        alert('insert valid value')
+        </script>
+        ";
+        return false;
+    }
+    $query = "UPDATE deadline SET tanggal ='$tgl',bulan ='$bulan',season ='$season',tahun = '$tahun' WHERE id = '$id'";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
+// function edit season
 function addseason($data)
 {
     global $konek;
@@ -245,7 +266,7 @@ function addseason($data)
     $tgl = $data['tgl'];
     $bulan = $data['bulan'];
     $tahun = $data['tahun'];
-    if ($tahun == 'bkn') {
+    if ($bulan == 'bkn') {
         echo "
         <script>
         alert('insert valid value')
