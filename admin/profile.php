@@ -16,7 +16,7 @@ if (isset($_POST['login'])) {
 }
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
-$season = query("SELECT * FROM deadline")[0];
+$season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -184,7 +184,7 @@ $season = query("SELECT * FROM deadline")[0];
           </div>
         </div>
         <div class="row">
-          <div class="col-12 col-xl-12">
+          <div class="col-12 col-xl-8">
             <div class="card card-plain h-100">
               <div class="card-header pb-0 p-3">
                 <h6 class="mb-0">Account Settings</h6>
@@ -243,6 +243,28 @@ $season = query("SELECT * FROM deadline")[0];
                     <button onclick="return confirm('Yakin mengubah Profile?')" name="login" type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Change Profile</button>
                   </div>
                 </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-xl-4">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="mb-0">Tool's</h6>
+              </div>
+              <div class="card-body p-3">
+                <ul class="list-group">
+                  <a href="../assets/pages/detail.season.php">
+                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                      <button class="btn btn-facebook  w-100 my-4 mb-2"><i class="material-icons opacity-100">schedule</i> SEASON</button>
+                    </li>
+                  </a>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                    <button class="btn btn-vimeo  w-100 my-4 mb-2"><i class="material-icons opacity-100">group</i> User</button>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                    <button class="btn btn-warning  w-100 my-4 mb-2"><i class="material-icons opacity-100">key</i> Access</button>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

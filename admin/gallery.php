@@ -7,7 +7,7 @@ if (!isset($_SESSION['admin'])) {
 }
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
-$season = query("SELECT * FROM deadline")[0];
+$season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
 $folder = query("SELECT * FROM folder");
 ?>
 <!DOCTYPE html>

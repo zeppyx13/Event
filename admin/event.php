@@ -41,7 +41,7 @@ $skip = query("SELECT * FROM kehadiran INNER JOIN lokasi on kehadiran.Id_lokasi 
 $querykehadiran = mysqli_query($konek, "SELECT * FROM kehadiran WHERE Id_lokasi = '$idlokasi' AND Email = '$email' ");
 $Allkehadiran = query("SELECT * FROM kehadiran WHERE Id_lokasi = '$idlokasi' AND Email = '$email' ")[0];
 $cekkehadiran = mysqli_num_rows($querykehadiran);
-$season = query("SELECT * FROM deadline")[0];
+$season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
 // logic
 $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
 ?>

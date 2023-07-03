@@ -14,7 +14,7 @@ $Qlokasi_sama = query("SELECT Lokasi, COUNT(*) as Jumlah FROM Lokasi GROUP BY Lo
 $Qlokasi_beda = query("SELECT DISTINCT Lokasi FROM lokasi");
 $bayar = query("SELECT SUM(bayar) AS TotalB FROM hutang")[0];
 $hutang = query("SELECT SUM(hutang) AS TotalP FROM hutang")[0];
-$season = query("SELECT * FROM deadline")[0];
+$season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
 //
 $total_lokasi = count($Qlokasi);
 $totalsama = count($Qlokasi_sama);

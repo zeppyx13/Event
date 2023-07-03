@@ -237,6 +237,26 @@ function Editfolder($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
+// function edit folder
+function addseason($data)
+{
+    global $konek;
+    $season = $data['season'];
+    $tgl = $data['tgl'];
+    $bulan = $data['bulan'];
+    $tahun = $data['tahun'];
+    if ($tahun == 'bkn') {
+        echo "
+        <script>
+        alert('insert valid value')
+        </script>
+        ";
+        return false;
+    }
+    $query = "INSERT INTO deadline VALUES('','$tgl','$bulan','$tahun','$season')";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
 // 
 //  FUNCTION Gambar
 // 
