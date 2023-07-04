@@ -9,6 +9,8 @@ $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
 $season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
 $folder = query("SELECT * FROM folder");
+$id_user = $user['id'];
+$akses = query("SELECT * FROM akses WHERE id_user = '$id_user'")[0];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,11 +109,15 @@ $folder = query("SELECT * FROM folder");
           <h6 class="font-weight-bolder mb-0">Photo</h6>
         </nav>
         <ul class="navbar-nav  justify-content-end">
-          <li class="nav-item d-flex align-items-center">
-            <a href="../assets/pages/add.folder.php">
-              <button class="btn btn-success btn-sm mb-0 me-3">add Folder</button>
-            </a>
-          </li>
+          <?php
+          if ($akses['Gallery'] == 'TRUE') {
+          ?>
+            <li class="nav-item d-flex align-items-center">
+              <a href="../assets/pages/add.folder.php">
+                <button class="btn btn-success btn-sm mb-0 me-3">add Folder</button>
+              </a>
+            </li>
+          <?php } ?>
           <li class="nav-item d-flex align-items-center">
             <button class="btn btn-outline-primary btn-sm mb-0 me-3">Season <?= $season['season'] ?> : <?= $season['tanggal'] ?>-<?= $season['bulan'] ?>-<?= $season['tahun'] ?></button>
           </li>
@@ -164,11 +170,15 @@ $folder = query("SELECT * FROM folder");
                   <hr class="dark horizontal mb-2 my-0">
                   <div class=" mt-2 footer d-flex justify-content-start">
                     <a class="me-4" target="_blank" href="<?= $folder['link'] ?>">More Photo's</a>
-                    <div class="action ms-auto">
-                      <a href="../assets/pages/edit.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
-                      <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
-                      <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
-                    </div>
+                    <?php
+                    if ($akses['Gallery'] == 'TRUE') {
+                    ?>
+                      <div class="action ms-auto">
+                        <a href="../assets/pages/edit.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
+                        <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
+                        <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
+                      </div>
+                    <?php } ?>
                   </div>
                 </div>
               </div>

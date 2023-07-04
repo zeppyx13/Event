@@ -36,12 +36,14 @@ $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
 $lokasi = query("SELECT * FROM lokasi ORDER BY lokasi.Id_lokasi DESC")[0];
 $idlokasi = $lokasi['Id_lokasi'];
+$id_user = $user['id'];
 $hadir = query("SELECT * FROM kehadiran INNER JOIN lokasi on kehadiran.Id_lokasi =lokasi.Id_lokasi INNER JOIN user USING(Email) WHERE kehadiran ='hadir' AND kehadiran.Id_lokasi = '$idlokasi'");
 $skip = query("SELECT * FROM kehadiran INNER JOIN lokasi on kehadiran.Id_lokasi =lokasi.Id_lokasi INNER JOIN user USING(Email) WHERE kehadiran ='skip' AND kehadiran.Id_lokasi = '$idlokasi' ");
 $querykehadiran = mysqli_query($konek, "SELECT * FROM kehadiran WHERE Id_lokasi = '$idlokasi' AND Email = '$email' ");
 $Allkehadiran = query("SELECT * FROM kehadiran WHERE Id_lokasi = '$idlokasi' AND Email = '$email' ")[0];
 $cekkehadiran = mysqli_num_rows($querykehadiran);
 $season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
+$akses = query("SELECT * FROM akses WHERE id_user = '$id_user'")[0];
 // logic
 $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
 ?>
@@ -341,30 +343,34 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
               <?= $lokasi['Map'] ?>
             </div>
           </div>
-          <div class="card mt-3">
-            <div class="judul d-flex justify-content-center mt-3">
-              <h3>Action</h3>
+          <?php
+          if ($akses['Event'] == 'TRUE') {
+          ?>
+            <div class="card mt-3">
+              <div class="judul d-flex justify-content-center mt-3">
+                <h3>Action</h3>
+              </div>
+              <hr class="dark horizontal mb-2 my-0">
+              <div class="row">
+                <div class="col-4">
+                  <a class="ms-7" href="../assets/pages/add.event.php">
+                    <button class="btn btn-primary mt-3 "><i class=" material-icons opacity-100">add</i></button>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a class="ms-5" href="../assets/pages/edit.event.php?id=<?= $lokasi['Id_lokasi'] ?>">
+                    <button class="btn btn-warning mt-3"><i class=" material-icons opacity-100">edit</i></button>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <form action="" method="post">
+                    <input class="d-none" type="text" value="<?= $lokasi['Id_lokasi'] ?>" name="id">
+                    <button onclick="return confirm('Yakin ingin menghapus event?')" type="submit" name="hapus" class="btn btn-danger mt-3"><i class=" material-icons opacity-100">delete</i></button>
+                  </form>
+                </div>
+              </div>
             </div>
-            <hr class="dark horizontal mb-2 my-0">
-            <div class="row">
-              <div class="col-4">
-                <a class="ms-7" href="../assets/pages/add.event.php">
-                  <button class="btn btn-primary mt-3 "><i class=" material-icons opacity-100">add</i></button>
-                </a>
-              </div>
-              <div class="col-4">
-                <a class="ms-5" href="../assets/pages/edit.event.php?id=<?= $lokasi['Id_lokasi'] ?>">
-                  <button class="btn btn-warning mt-3"><i class=" material-icons opacity-100">edit</i></button>
-                </a>
-              </div>
-              <div class="col-4">
-                <form action="" method="post">
-                  <input class="d-none" type="text" value="<?= $lokasi['Id_lokasi'] ?>" name="id">
-                  <button onclick="return confirm('Yakin ingin menghapus event?')" type="submit" name="hapus" class="btn btn-danger mt-3"><i class=" material-icons opacity-100">delete</i></button>
-                </form>
-              </div>
-            </div>
-          </div>
+          <?php } ?>
         </div>
       </div>
     </div>
