@@ -14,13 +14,14 @@ if (isset($_POST["login"])) {
                 $_SESSION['email'] = $email;
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['lvl'] = "admin";
+                $_SESSION['login'] = true;
 
                 header("location:../../../admin/");
             } else if ($row['lvl'] == "user") {
                 $_SESSION['user'] = true;
                 $_SESSION['email'] = $email;
                 $_SESSION['lvl'] = "user";
-
+                $_SESSION['login'] = true;
                 header("location:../../../dashboard/");
             } else {
                 header("location:../../../");

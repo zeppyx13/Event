@@ -1,5 +1,11 @@
 <?php
+session_start();
 require '../config/php/backend.php';
+if (!isset($_SESSION['login'])) {
+    echo "<script>alert('akses ilegal');
+    window.location='../config/php/logout.php'</script>";
+    exit;
+}
 $id = $_GET['id'];
 $query = query("SELECT * FROM kehadiran INNER JOIN user USING (Email) WHERE Id_Lokasi ='$id'");
 $lokasi = query("SELECT * FROM lokasi WHERE Id_Lokasi ='$id'")[0];

@@ -1,7 +1,13 @@
 <?php
+session_start();
 require '../config/php/backend.php';
 error_reporting(0);
 $query = query("SELECT * FROM user");
+if (!isset($_SESSION['admin'])) {
+    echo "<script>alert('akses ilegal');
+    window.location='../config/php/logout.php'</script>";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../config/php/backend.php';
+// akses
 if (!isset($_SESSION['admin'])) {
     echo "<script>alert('akses ilegal');
     window.location='../'</script>";

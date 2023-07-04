@@ -1,5 +1,11 @@
 <?php
+session_start();
 require '../config/php/backend.php';
+if (!isset($_SESSION['login'])) {
+    echo "<script>alert('akses ilegal');
+    window.location='../config/php/logout.php'</script>";
+    exit;
+}
 $query = query("SELECT * FROM lokasi ORDER BY tanggal ASC");
 ?>
 <!DOCTYPE html>

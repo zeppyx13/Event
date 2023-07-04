@@ -4,7 +4,7 @@ require '../config/php/backend.php';
 $id = $_GET['id'];
 if (!isset($_SESSION['admin'])) {
     echo "<script>alert('akses ilegal');
-    window.location='../'</script>";
+    window.location='../config/php/logout.php'</script>";
     exit;
 }
 $userquery = query("SELECT * FROM hutang WHERE Id_hutang ='$id'")[0];

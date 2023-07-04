@@ -3,7 +3,7 @@ session_start();
 require '../config/php/backend.php';
 if (!isset($_SESSION['admin'])) {
     echo "<script>alert('akses ilegal');
-    window.location='../'</script>";
+    window.location='../config/php/logout.php'</script>";
     exit;
 }
 if (isset($_POST['add'])) {

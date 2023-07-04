@@ -1,6 +1,12 @@
 <?php
+session_start();
 require '../config/php/backend.php';
 error_reporting(0);
+if (!isset($_SESSION['admin'])) {
+    echo "<script>alert('akses ilegal');
+    window.location='../config/php/logout.php'</script>";
+    exit;
+}
 $id = $_GET['id'];
 $query = query("SELECT * FROM hutang INNER JOIN lokasi ON lokasi.Id_lokasi  = hutang.Id_tempat WHERE Id_user  = '$id'");
 $user = query("SELECT * FROM user WHERE id = '$id' ")[0];

@@ -1,6 +1,13 @@
 <?php
+session_start();
 require '../config/php/backend.php';
 error_reporting(0);
+// akses
+if (!isset($_SESSION['admin'])) {
+    echo "<script>alert('akses ilegal');
+    window.location='../config/php/logout.php'</script>";
+    exit;
+}
 $id = $_GET['id_folder'];
 $query = query("SELECT * FROM foto WHERE id_folder = '$id'");
 $folder = query("SELECT * FROM folder WHERE id = '$id' ")[0];

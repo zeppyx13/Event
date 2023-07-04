@@ -1,6 +1,12 @@
 <?php
+session_start();
 require '../config/php/backend.php';
 error_reporting(0);
+if (!isset($_SESSION['admin'])) {
+    echo "<script>alert('akses ilegal');
+    window.location='../config/php/logout.php'</script>";
+    exit;
+}
 $query = query("SELECT * FROM akses INNER JOIN user ON user.id = akses.id_user");
 ?>
 <!DOCTYPE html>
