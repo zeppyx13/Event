@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 session_start();
 require "../assets/config/php/backend.php";
 require "../assets/config/php/stat.php";
