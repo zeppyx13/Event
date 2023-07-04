@@ -113,9 +113,24 @@ $user = query("SELECT * FROM user WHERE id = '$id'")[0];
                                     <div class="row">
                                         <input type="text" class="d-none" name="id" value="<?= $user['id'] ?>">
                                         <input type="text" class="d-none" name="oldgambar" value="<?= $user['gambar'] ?>">
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <div class="input-group input-group-outline my-3">
                                                 <input disabled value="<?= $user['Email'] ?>" required autocomplete="off" name="email" type="email" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-group input-group-outline my-3">
+                                                <select required class="form-control" name="role" id="bulan">
+                                                    <?php
+                                                    if ($user['lvl'] == "admin") {
+                                                    ?>
+                                                        <option selected value="admin">ADMIN</option>
+                                                        <option value="user">USER</option>
+                                                    <?php } else { ?>
+                                                        <option value="admin">ADMIN</option>
+                                                        <option selected value="user">USER</option>
+                                                    <?php } ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-6">

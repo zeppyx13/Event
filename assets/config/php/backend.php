@@ -215,6 +215,7 @@ function Uprofileadmin($data)
     $usernama = $data["username"];
     $pw = $data['pw1'];
     $pw2 = $data['pw2'];
+    $role = $data['role'];
     if ($pw !== $pw2) {
         echo "
         <script>
@@ -234,12 +235,12 @@ function Uprofileadmin($data)
     }
     if ($pw != NULL) {
         $password = password_hash($pw, PASSWORD_DEFAULT);
-        $query = "UPDATE user SET Password = '$password', Username = '$usernama', Nama = '$nama' WHERE id= '$id' ";
+        $query = "UPDATE user SET lvl='$role', Password = '$password', Username = '$usernama', Nama = '$nama' WHERE id= '$id' ";
         mysqli_query($konek, $query);
         return mysqli_affected_rows($konek);
         exit;
     }
-    $query = "UPDATE user SET Username = '$usernama', Nama = '$nama' WHERE id= '$id' ";
+    $query = "UPDATE user SET lvl='$role', Username = '$usernama', Nama = '$nama' WHERE id= '$id' ";
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }

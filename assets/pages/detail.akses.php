@@ -1,7 +1,7 @@
 <?php
 require '../config/php/backend.php';
 error_reporting(0);
-$query = query("SELECT * FROM user");
+$query = query("SELECT * FROM akses INNER JOIN user ON user.id = akses.id_user");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@ $query = query("SELECT * FROM user");
     <link rel="apple-touch-icon" sizes="76x76" href="../img/apple-icon.png">
     <link rel="icon" type="image/pn g" href="../img/favicon.png">
     <title>
-        JB Pay || Detail User
+        JB Pay || Detail Season
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -37,38 +37,40 @@ $query = query("SELECT * FROM user");
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a class="opacity-5 text-dark" href="../../admin/">Dashboard</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">User</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a class="opacity-5 text-dark" href="../../admin/profile.php">Dashboard</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">profile</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">User Detail</h6>
+                    <h6 class="font-weight-bolder mb-0">Detail Akses</h6>
                 </nav>
-            </div>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                        <a href="./add.season.php"><button class="btn btn-success ms-4 mt-3"><i class="d-flex justify-content-center  material-icons opacity-100">add</i></button></a>
+                    </div>
+                </div>
             </div>
         </nav>
         <!-- Navbar -->
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <!-- real -->
                 <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Detail User<a class="text-white text-capitalize" style="margin-left:80%" href="../../admin/profile.php">BACK</a></h6>
+                                <h6 class="text-white text-capitalize ps-3">AKSES<a class="text-white text-capitalize" style="margin-left:80%" href="../../admin/profile.php">BACK</a></h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
-                            <div id="container" class=" table-responsive p-0">
+                            <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
                                             <th class="text-center text-black font-weight-bolder">No</th>
-                                            <th class="text-center text-black font-weight-bolder">Role</th>
-                                            <th class="text-center text-uppercase text-black font-weight-bolder">Nama</th>
-                                            <th class="text-center text-uppercase text-black font-weight-bolder">User Name</th>
+                                            <th class="text-center text-black font-weight-bolder">Nama</th>
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Email</th>
-                                            <th class="text-center text-uppercase text-black font-weight-bolder">Profile</th>
-                                            <th class="text-center text-uppercase text-black font-weight-bolder">Action</th>
+                                            <th class="text-center text-uppercase text-black font-weight-bolder">AKSES Event</th>
+                                            <th class="text-center text-uppercase text-black font-weight-bolder">AKSES Gallery</th>
+                                            <th class="text-center text-uppercase text-black font-weight-bolder">action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -76,20 +78,12 @@ $query = query("SELECT * FROM user");
                                         <?php foreach ($query as $row) : ?>
                                             <tr>
                                                 <td class="text-center text-black"><?= $i ?></td>
-                                                <td class="text-center text-black"><?= $row['lvl'] ?></td>
                                                 <td class="text-center text-black"><?= $row['Nama'] ?></td>
-                                                <td class="text-center text-black"><?= $row['UserName'] ?></td>
                                                 <td class="text-center text-black"><?= $row['Email'] ?></td>
-                                                <td class="text-center text-black">
-                                                    <div class="avatar avatar-xl position-relative">
-                                                        <a href="../profile/<?= $row['gambar'] ?>">
-                                                            <img src="../profile/<?= $row['gambar'] ?>" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center text-black">
-                                                    <a href="./edit.profile.php?id=<?= $row['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
-                                                    <a onclick="return confirm('Yakin ingin menghapus User?')" href="./delete.profile.php?id=<?= $row['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
+                                                <td class="text-center text-black"><?= $row['Event'] ?></td>
+                                                <td class="text-center text-black"><?= $row['Gallery'] ?></td>
+                                                <td class="text-center text-black"> <a href="./edit.season.php?id=<?= $row['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
+                                                    <a onclick="return confirm('Yakin ingin menghapus season?')" href="./delete.season.php?id=<?= $row['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; ?>
@@ -101,8 +95,8 @@ $query = query("SELECT * FROM user");
                     </div>
                 </div>
             </div>
-            <footer class="footer py-4  ">
-                <div class="container-fluid">
+            <footer class=" footer py-4 ">
+                <div class=" container-fluid">
                     <div class="row align-items-center justify-content-lg-between">
                         <div class="col-lg-6 mb-lg-0 mb-4">
                             <div class="copyright text-center text-sm text-muted text-lg-start">
@@ -111,7 +105,7 @@ $query = query("SELECT * FROM user");
                                     document.write(new Date().getFullYear())
                                 </script>,
                                 made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                                <a href="https://www.gungnanda.com" class="font-weight-bold" target="_blank">Gung Nanda</a>
                                 for a better web.
                             </div>
                         </div>
