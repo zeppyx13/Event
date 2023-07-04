@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 session_start();
 require '../config/php/backend.php';
 if (!isset($_SESSION['login'])) {
@@ -6,6 +7,8 @@ if (!isset($_SESSION['login'])) {
     window.location='../config/php/logout.php'</script>";
     exit;
 }
+$email = $_SESSION['email'];
+$user = query("SELECT * FROM user WHERE Email = '$email'")[0];
 $query = query("SELECT * FROM lokasi ORDER BY tanggal ASC");
 ?>
 <!DOCTYPE html>
@@ -45,7 +48,12 @@ $query = query("SELECT * FROM lokasi ORDER BY tanggal ASC");
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">history Perjalanan <a class="text-white text-capitalize" style="margin-left:80%" href="../../admin/event.php">BACK</a></h6>
+                                <h6 class="text-white text-capitalize ps-3">history Perjalanan <a class="text-white text-capitalize" style="margin-left:80%" <?php if ($user['lvl'] == 'admin') {
+                                                                                                                                                                    echo "href='../../admin/event.php'";
+                                                                                                                                                                } else {
+                                                                                                                                                                    echo "href='../../dashboard/event.php'";
+                                                                                                                                                                }
+                                                                                                                                                                ?>>BACK</a></h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
