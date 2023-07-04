@@ -4,7 +4,8 @@ error_reporting(0);
 require "../assets/config/php/backend.php";
 // kondisi
 if (!isset($_SESSION['admin'])) {
-  echo "<script>alert('akses ilegal');window.location='../'</script>";
+  echo "<script>alert('akses ilegal');
+  window.location='../assets/config/php/logout.php'</script>";
   exit;
 }
 if (isset($_POST['ikut']) || isset($_POST['skip'])) {

@@ -3,7 +3,8 @@ session_start();
 require "../assets/config/php/backend.php";
 require "../assets/config/php/stat.php";
 if (!isset($_SESSION['admin'])) {
-  echo "<script>alert('akses ilegal');window.location='../'</script>";
+  echo "<script>alert('akses ilegal');
+  window.location='../assets/config/php/logout.php'</script>";
   exit;
 }
 $email = $_SESSION['email'];
