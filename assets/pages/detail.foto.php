@@ -3,7 +3,11 @@ session_start();
 require '../config/php/backend.php';
 error_reporting(0);
 // akses
-if (!isset($_SESSION['admin'])) {
+$email = $_SESSION['email'];
+$user = query("SELECT * FROM user WHERE Email = '$email'")[0];
+$id_user = $user['id'];
+$akses = query("SELECT * FROM akses WHERE id_user = '$id_user'")[0];
+if (!isset($_SESSION['admin']) && $akses['Gallery'] == 'FALSE') {
     echo "<script>alert('akses ilegal');
     window.location='../config/php/logout.php'</script>";
     exit;
@@ -46,7 +50,11 @@ $folder = query("SELECT * FROM folder WHERE id = '$id' ")[0];
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a class="opacity-5 text-dark" href="../../admin/">Dashboard</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a class="opacity-5 text-dark" <?php if ($akses['Gallery'] == 'TRUE') {
+                                                                                                                                    echo "href='../../dashboard/'";
+                                                                                                                                } else {
+                                                                                                                                    echo "href='../../admin/'";
+                                                                                                                                }; ?>>Dashboard</a></li>
                         <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Gallery</li>
                     </ol>
                     <h6 class="font-weight-bolder mb-0">Detail Foto</h6>
@@ -86,7 +94,11 @@ $folder = query("SELECT * FROM folder WHERE id = '$id' ")[0];
                         <hr class="dark horizontal mt-4 mb-2 my-0">
                         <footer>
                             <div class="back">
-                                <a href="../../admin/gallery.php">
+                                <a <?php if ($akses['Gallery'] == 'TRUE') {
+                                        echo "href='../../dashboard/gallery.php'";
+                                    } else {
+                                        echo "href='../../admin/gallery.php'";
+                                    }; ?>>
                                     Back
                                 </a>
                             </div>

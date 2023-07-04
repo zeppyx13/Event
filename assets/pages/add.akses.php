@@ -15,7 +15,7 @@ if (isset($_POST['add'])) {
       ";
     }
 }
-$user = query("SELECT * FROM user");
+$user = query("SELECT * FROM user WHERE lvl != 'admin'");
 ?>
 <!DOCTYPE html>
 <html lang="id">

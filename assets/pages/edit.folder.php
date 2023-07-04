@@ -1,19 +1,32 @@
 <?php
+error_reporting(0);
 session_start();
 // akses
 require '../config/php/backend.php';
-if (!isset($_SESSION['admin'])) {
+$email = $_SESSION['email'];
+$user = query("SELECT * FROM user WHERE Email = '$email'")[0];
+$id_user = $user['id'];
+$akses = query("SELECT * FROM akses WHERE id_user = '$id_user'")[0];
+if (!isset($_SESSION['admin']) && $akses['Gallery'] == 'FALSE') {
     echo "<script>alert('akses ilegal');
-    window.location='../'</script>";
+    window.location='../config/php/logout.php'</script>";
     exit;
 }
 if (isset($_POST['add'])) {
-    if (Editfolder($_POST) > 0) {
-        echo "<script>
-      alert('Folder di rubah');
-      document.location.href='../../admin/gallery.php';
-      </script>
-      ";
+    if (editfolder($_POST) > 0) {
+        if ($akses['Gallery'] == 'TRUE') {
+            echo "<script>
+            alert('Folder di rubah');
+            document.location.href='../../dashboard/gallery.php';
+            </script>
+            ";
+        } else {
+            echo "<script>
+            alert('Folder di rubah');
+            document.location.href='../../admin/gallery.php';
+            </script>
+            ";
+        }
     }
 }
 $id = $_GET['id_folder'];
