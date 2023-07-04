@@ -44,7 +44,7 @@ $query = query("SELECT * FROM akses INNER JOIN user ON user.id = akses.id_user")
                 </nav>
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <a href="./add.season.php"><button class="btn btn-success ms-4 mt-3"><i class="d-flex justify-content-center  material-icons opacity-100">add</i></button></a>
+                        <a href="./add.akses.php"><button class="btn btn-success ms-4 mt-3"><i class="d-flex justify-content-center  material-icons opacity-100">add</i></button></a>
                     </div>
                 </div>
             </div>
@@ -82,8 +82,8 @@ $query = query("SELECT * FROM akses INNER JOIN user ON user.id = akses.id_user")
                                                 <td class="text-center text-black"><?= $row['Email'] ?></td>
                                                 <td class="text-center text-black"><?= $row['Event'] ?></td>
                                                 <td class="text-center text-black"><?= $row['Gallery'] ?></td>
-                                                <td class="text-center text-black"> <a href="./edit.season.php?id=<?= $row['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
-                                                    <a onclick="return confirm('Yakin ingin menghapus season?')" href="./delete.season.php?id=<?= $row['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
+                                                <td class="text-center text-black"> <a href="./edit.akses.php?id=<?= $row['id_akses'] ?>"><i class=" material-icons opacity-100">edit</i></a>
+                                                    <a onclick="return confirm('Yakin ingin menghapus akses?')" href="./delete.akses.php?id=<?= $row['id_akses'] ?>"><i class=" material-icons opacity-100">delete</i></a>
                                                 </td>
                                             </tr>
                                             <?php $i++; ?>

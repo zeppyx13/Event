@@ -316,6 +316,45 @@ function addseason($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
+// function add akses
+function addakses($data)
+{
+    global $konek;
+    $user = $data['user'];
+    $event = $data['event'];
+    $gallery = $data['gallery'];
+    if ($user == "bkn") {
+        echo "
+        <script>
+        alert('insert valid value')
+        </script>
+        ";
+        return false;
+    }
+    $result2 = mysqli_query($konek, "SELECT id_user FROM akses WHERE id_user = '$user'");
+    if (mysqli_fetch_assoc($result2)) {
+        echo "
+        <script>
+        alert('User telah memiliki akses')
+        </script>
+        ";
+        return false;
+    }
+    $query = "INSERT INTO akses VALUES('','$user','$event','$gallery')";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
+// function edit akses
+function editakses($data)
+{
+    global $konek;
+    $id = $data['id'];
+    $event = $data['event'];
+    $gallery = $data['gallery'];
+    $query = "UPDATE akses SET Event = '$event', Gallery = '$gallery' WHERE id_akses = '$id'";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
 // 
 //  FUNCTION Gambar
 // 
