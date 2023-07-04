@@ -1,8 +1,13 @@
 <?php
+error_reporting(0);
 session_start();
 require '../config/php/backend.php';
 // akses
-if (!isset($_SESSION['admin'])) {
+$email = $_SESSION['email'];
+$user = query("SELECT * FROM user WHERE Email = '$email'")[0];
+$id_user = $user['id'];
+$akses = query("SELECT * FROM akses WHERE id_user = '$id_user'")[0];
+if (!isset($_SESSION['admin']) && $akses['Event'] == 'FALSE') {
     echo "<script>alert('akses ilegal');
     window.location='../config/php/logout.php'</script>";
     exit;
@@ -11,11 +16,19 @@ $id = $_GET['id'];
 $event = query("SELECT * FROM lokasi WHERE Id_lokasi = '$id'")[0];
 if (isset($_POST['add'])) {
     if (updateevent($_POST) > 0) {
-        echo "<script>
-      alert('Event di rubah');
-      document.location.href='../../admin/event.php';
-      </script>
-      ";
+        if ($akses['Event'] == 'TRUE') {
+            echo "<script>
+            alert('Event di tambahkan');
+            document.location.href='../../dashboard/event.php';
+            </script>
+            ";
+        } else {
+            echo "<script>
+            alert('Event di tambahkan');
+            document.location.href='../../admin/event.php';
+            </script>
+            ";
+        }
     }
 }
 ?>
@@ -107,7 +120,11 @@ if (isset($_POST['add'])) {
                         </form>
                         <footer>
                             <div class="d-flex justify-content-end warper">
-                                <a href="../../admin/event.php">
+                                <a <?php if ($akses['Event'] == 'TRUE') {
+                                        echo "href='../../dashboard/Event.php'";
+                                    } else {
+                                        echo "href='../../admin/Event.php'";
+                                    }; ?>>
 
                                     <h4>
                                         <<< </h1>

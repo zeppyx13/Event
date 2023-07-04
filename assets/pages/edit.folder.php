@@ -88,7 +88,11 @@ $folder = query("SELECT * FROM folder WHERE id='$id'")[0];
                         </form>
                         <footer>
                             <div class="d-flex justify-content-end warper">
-                                <a href="../../admin/gallery.php">
+                                <a <?php if ($akses['Gallery'] == 'TRUE') {
+                                        echo "href='../../dashboard/gallery.php'";
+                                    } else {
+                                        echo "href='../../admin/gallery.php'";
+                                    }; ?>>
 
                                     <h4>
                                         <<< </h1>
