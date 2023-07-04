@@ -56,6 +56,7 @@ $query = query("SELECT * FROM lokasi ORDER BY tanggal ASC");
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Biaya</th>
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Titik Kumpul</th>
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Dress Code</th>
+                                            <th class="text-center text-uppercase text-black font-weight-bolder">Kehadiran</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -71,6 +72,7 @@ $query = query("SELECT * FROM lokasi ORDER BY tanggal ASC");
                                                 <td class="text-center text-black"><?= $row['Biaya'] ?></td>
                                                 <td class="text-center text-black"><?= $row['tikum'] ?></td>
                                                 <td class="text-center text-black"><?= $row['dress'] ?></td>
+                                                <td class="text-center text-black"><a href="./detail.kehadiran.php?id=<?= $row['Id_lokasi'] ?>">check here</a></td>
                                             </tr>
                                             <?php $i++; ?>
                                         <?php endforeach; ?>
