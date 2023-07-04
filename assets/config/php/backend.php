@@ -206,6 +206,43 @@ function Uprofile($data)
     mysqli_query($konek, $query);
     return mysqli_affected_rows($konek);
 }
+// function update profile admin
+function Uprofileadmin($data)
+{
+    global $konek;
+    $id = $data["id"];
+    $nama = $data["nama"];
+    $usernama = $data["username"];
+    $pw = $data['pw1'];
+    $pw2 = $data['pw2'];
+    if ($pw !== $pw2) {
+        echo "
+        <script>
+        alert('password baru berbeda')
+        </script>
+        ";
+        return false;
+    }
+    $result2 = mysqli_query($konek, "SELECT UserName FROM user WHERE UserName = '$usernama' AND id != '$id'");
+    if (mysqli_fetch_assoc($result2)) {
+        echo "
+        <script>
+        alert('username sudah di sudah digunakan')
+        </script>
+        ";
+        return false;
+    }
+    if ($pw != NULL) {
+        $password = password_hash($pw, PASSWORD_DEFAULT);
+        $query = "UPDATE user SET Password = '$password', Username = '$usernama', Nama = '$nama' WHERE id= '$id' ";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+        exit;
+    }
+    $query = "UPDATE user SET Username = '$usernama', Nama = '$nama' WHERE id= '$id' ";
+    mysqli_query($konek, $query);
+    return mysqli_affected_rows($konek);
+}
 // function add foto
 function addfoto($data)
 {

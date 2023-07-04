@@ -258,9 +258,11 @@ $season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
                       <button class="btn btn-facebook  w-100 my-4 mb-2"><i class="material-icons opacity-100">schedule</i> SEASON</button>
                     </li>
                   </a>
-                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                    <button class="btn btn-vimeo  w-100 my-4 mb-2"><i class="material-icons opacity-100">group</i> User</button>
-                  </li>
+                  <a href="../assets/pages/detail.profile.php">
+                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                      <button class="btn btn-vimeo  w-100 my-4 mb-2"><i class="material-icons opacity-100">group</i> User</button>
+                    </li>
+                  </a>
                   <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                     <button class="btn btn-warning  w-100 my-4 mb-2"><i class="material-icons opacity-100">key</i> Access</button>
                   </li>
