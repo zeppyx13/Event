@@ -225,7 +225,7 @@ $fbelumdibayar = number_format($hutang['TotalP'] - $bayar['TotalB'], 0, ',', '.'
             </div>
             <div class="card-body">
               <h6 class="mb-0 ">Nongkrong</h6>
-              <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+              <p class="text-sm ">Total tempat nongkrong setiap bulan nya.</p>
               <hr class="dark horizontal">
             </div>
           </div>

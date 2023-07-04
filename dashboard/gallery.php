@@ -7,6 +7,8 @@ if (!isset($_SESSION['user'])) {
 }
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
+$season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
+$folder = query("SELECT * FROM folder");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,9 +108,13 @@ $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
         </nav>
         <ul class="navbar-nav  justify-content-end">
           <li class="nav-item d-flex align-items-center">
-            <button disabled class="btn btn-outline-primary btn-sm mb-0 me-3">10-desember-2023</button>
+            <a href="../assets/pages/add.folder.php">
+              <button class="btn btn-success btn-sm mb-0 me-3">add Folder</button>
+            </a>
           </li>
-
+          <li class="nav-item d-flex align-items-center">
+            <button class="btn btn-outline-primary btn-sm mb-0 me-3">Season <?= $season['season'] ?> : <?= $season['tanggal'] ?>-<?= $season['bulan'] ?>-<?= $season['tahun'] ?></button>
+          </li>
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
               <div class="sidenav-toggler-inner">
@@ -123,50 +129,6 @@ $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
               <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
             </a>
           </li>
-          <li class="nav-item dropdown pe-2 d-flex align-items-center">
-            <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-bell cursor-pointer"></i>
-            </a>
-            <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-              <!-- notif -->
-              <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="d-flex py-1">
-                    <div class="my-auto">
-                      <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="text-sm font-weight-normal mb-1">
-                        <span class="font-weight-bold">New message</span> from Laur
-                      </h6>
-                      <p class="text-xs text-secondary mb-0">
-                        <i class="fa fa-clock me-1"></i>
-                        13 minutes ago
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="d-flex py-1">
-                    <div class="my-auto">
-                      <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="text-sm font-weight-normal mb-1">
-                        <span class="font-weight-bold">New album</span> by Travis Scott
-                      </h6>
-                      <p class="text-xs text-secondary mb-0">
-                        <i class="fa fa-clock me-1"></i>
-                        1 day
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <!-- end isi notif -->
-            </ul>
           </li>
           <a href="./profile.php">
             <img style="max-height:40px; border-radius:50%; margin-right:10px;" src="../assets/profile/<?= $user['gambar'] ?>" alt="profile">
@@ -180,49 +142,41 @@ $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">kintamani</h6>
+        <?php foreach ($folder as $folder) : ?>
+          <?php
+          $id_folder = $folder['id'];
+          $foto = query("SELECT * FROM foto WHERE id_folder = '$id_folder' LIMIT 6");
+          ?>
+          <div class="col-12">
+            <div class="card my-4">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                  <h6 class="text-white text-capitalize ps-3"><?= $folder['Nama_Folder'] ?></h6>
+                </div>
               </div>
-            </div>
-            <div class="card-body d-flex justify-content-center px-0 pb-2">
-              <div class="row ms-4">
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <div class="col-3 mb-5 mt-4">
-                  <img style="max-width: 200px; max-height:200px;" src="../assets/img/drake.jpg" alt="" srcset="">
-                </div>
-                <hr class="dark horizontal mb-2 my-0">
-                <div class="footer d-flex justify-content-end">
-                  <a class=" me-4 " href="">More Photo's</a>
+              <div class="card-body d-flex justify-content-center px-0 pb-2">
+                <div class="row ms-4">
+                  <?php foreach ($foto as $foto) : ?>
+                    <div class="col-md-3 mb-4 mt-4 ms-4">
+                      <img class="ms-4" style="max-width: 200px; max-height:200px;" src="../assets/gallery/<?= $foto['foto'] ?>" alt="<?= $foto['foto'] ?>" srcset="">
+                    </div>
+                  <?php endforeach; ?>
+                  <hr class="dark horizontal mb-2 my-0">
+                  <div class=" mt-2 footer d-flex justify-content-start">
+                    <a class="me-4" target="_blank" href="<?= $folder['link'] ?>">More Photo's</a>
+                    <div class="action ms-auto">
+                      <a href="../assets/pages/edit.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
+                      <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
+                      <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        <?php endforeach; ?>
       </div>
-      <footer class="footer py-4  ">
+      <footer class="footer py-4 mt-6">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -232,7 +186,7 @@ $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
                   document.write(new Date().getFullYear())
                 </script>,
                 made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                <a href="https://gungnanda.com" class="font-weight-bold" target="_blank">Gung Nanda</a>
                 for a better web.
               </div>
             </div>

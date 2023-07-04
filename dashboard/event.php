@@ -23,6 +23,14 @@ if (isset($_POST['ubahtoskip']) || isset($_POST['ubahtoikut'])) {
     ";
   }
 }
+if (isset($_POST['hapus'])) {
+  if (deleteevent($_POST) > 0) {
+    echo "<script>
+    alert('Event di hapus');
+    </script>
+    ";
+  }
+}
 // query
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
@@ -33,6 +41,7 @@ $skip = query("SELECT * FROM kehadiran INNER JOIN lokasi on kehadiran.Id_lokasi 
 $querykehadiran = mysqli_query($konek, "SELECT * FROM kehadiran WHERE Id_lokasi = '$idlokasi' AND Email = '$email' ");
 $Allkehadiran = query("SELECT * FROM kehadiran WHERE Id_lokasi = '$idlokasi' AND Email = '$email' ")[0];
 $cekkehadiran = mysqli_num_rows($querykehadiran);
+$season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
 // logic
 $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
 ?>
@@ -58,9 +67,6 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -134,9 +140,8 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
         </nav>
         <ul class="navbar-nav  justify-content-end">
           <li class="nav-item d-flex align-items-center">
-            <button disabled class="btn btn-outline-primary btn-sm mb-0 me-3">10-desember-2023</button>
+            <button class="btn btn-outline-primary btn-sm mb-0 me-3">Season <?= $season['season'] ?> : <?= $season['tanggal'] ?>-<?= $season['bulan'] ?>-<?= $season['tahun'] ?></button>
           </li>
-
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
               <div class="sidenav-toggler-inner">
@@ -150,51 +155,6 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
             <a href="javascript:;" class="nav-link text-body p-0">
               <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
             </a>
-          </li>
-          <li class="nav-item dropdown pe-2 d-flex align-items-center">
-            <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-bell cursor-pointer"></i>
-            </a>
-            <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-              <!-- notif -->
-              <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="d-flex py-1">
-                    <div class="my-auto">
-                      <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="text-sm font-weight-normal mb-1">
-                        <span class="font-weight-bold">New message</span> from Laur
-                      </h6>
-                      <p class="text-xs text-secondary mb-0">
-                        <i class="fa fa-clock me-1"></i>
-                        13 minutes ago
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="mb-2">
-                <a class="dropdown-item border-radius-md" href="javascript:;">
-                  <div class="d-flex py-1">
-                    <div class="my-auto">
-                      <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                      <h6 class="text-sm font-weight-normal mb-1">
-                        <span class="font-weight-bold">New album</span> by Travis Scott
-                      </h6>
-                      <p class="text-xs text-secondary mb-0">
-                        <i class="fa fa-clock me-1"></i>
-                        1 day
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <!-- end isi notif -->
-            </ul>
           </li>
           <li style="margin-left: 20px;" class="nav-item d-flex align-items-center">
             <a href="./profile.php">
@@ -291,12 +251,10 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
                   <td>&nbsp;:&nbsp;&nbsp;</td>
                   <td>
                     <div class="avatar-group">
-                      <?php $i = 1; ?>
                       <?php foreach ($hadir as $row) : ?>
                         <a class="avatar avatar-sm border-0 rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="<?= $row['Nama'] ?>">
                           <img alt="Image placeholder" src="../assets/profile/<?= $row['gambar'] ?>">
                         </a>
-                        <?php $i++; ?>
                       <?php endforeach; ?>
                     </div>
                   </td>
@@ -332,7 +290,6 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
                   <td>&nbsp;:&nbsp;&nbsp;</td>
                   <td>
                     <div class="avatar-group">
-                      <?php $i = 1; ?>
                       <?php foreach ($skip as $row) : ?>
                         <a class="avatar avatar-sm border-0 rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="<?= $row['Nama'] ?>">
                           <img alt="Image placeholder" src="../assets/profile/<?= $row['gambar'] ?>">
@@ -368,6 +325,10 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
                 </tr>
               </table>
             </div>
+            <hr>
+            <a style="margin-top: -10%" class="d-flex justify-content-end mb-5" href="../assets/pages/history.event.php">
+              <i class=" material-icons opacity-100">history</i>
+            </a>
           </div>
         </div>
         <div class=" col-xxl-5 col-xl-7 col-lg-7 mt-md-0 mt-sm-5">
@@ -380,6 +341,30 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
               <?= $lokasi['Map'] ?>
             </div>
           </div>
+          <div class="card mt-3">
+            <div class="judul d-flex justify-content-center mt-3">
+              <h3>Action</h3>
+            </div>
+            <hr class="dark horizontal mb-2 my-0">
+            <div class="row">
+              <div class="col-4">
+                <a class="ms-7" href="../assets/pages/add.event.php">
+                  <button class="btn btn-primary mt-3 "><i class=" material-icons opacity-100">add</i></button>
+                </a>
+              </div>
+              <div class="col-4">
+                <a class="ms-5" href="../assets/pages/edit.event.php?id=<?= $lokasi['Id_lokasi'] ?>">
+                  <button class="btn btn-warning mt-3"><i class=" material-icons opacity-100">edit</i></button>
+                </a>
+              </div>
+              <div class="col-4">
+                <form action="" method="post">
+                  <input class="d-none" type="text" value="<?= $lokasi['Id_lokasi'] ?>" name="id">
+                  <button onclick="return confirm('Yakin ingin menghapus event?')" type="submit" name="hapus" class="btn btn-danger mt-3"><i class=" material-icons opacity-100">delete</i></button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -387,7 +372,7 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
-            <?php require "../assets/pages/index.php"; ?>
+            <?php require "../assets/pages/chat.php"; ?>
           </div>
         </div>
       </div>
@@ -490,7 +475,6 @@ $fbiaya = number_format($lokasi['Biaya'], 0, ',', '.');
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
 </body>
 
