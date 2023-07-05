@@ -4,8 +4,7 @@ if (isset($_POST['chat'])) {
     }
 }
 $emailuser = $_SESSION['email'];
-$chat_selft = query("SELECT * FROM chat INNER JOIN user USING(Email) WHERE Email = '$emailuser'");
-$chat_others = query("SELECT * FROM chat INNER JOIN user USING(Email) WHERE Email != '$emailuser'");
+$chat_all = query("SELECT * FROM chat INNER JOIN user USING(Email) ORDER BY waktu DESC");
 date_default_timezone_set('Asia/Makassar');
 $waktu = date('Y-m-d H:i:s');
 ?>
@@ -31,39 +30,38 @@ $waktu = date('Y-m-d H:i:s');
                 <div class="direct-chat-messages">
                     <!-- Message. Default to the left -->
                     <?php $i = 1; ?>
-                    <?php foreach ($chat_others as $row) : ?>
-                        <div class="direct-chat-msg">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-left"><?= $row['UserName'] ?></span>
-                                <span class="direct-chat-timestamp pull-right"><?= $row['waktu'] ?></span>
+                    <?php foreach ($chat_all as $row) : ?>
+                        <?php if ($row['Email'] == $emailuser) { ?>
+                            <div class="direct-chat-msg right">
+                                <div class="direct-chat-info clearfix">
+                                    <span class="direct-chat-name pull-right"> <span class="direct-chat-timestamp pull-left"><?= $row['UserName'] ?></span>
+                                    </span>
+                                    <span class="direct-chat-timestamp pull-left"><?= $row['waktu'] ?></span>
+                                </div>
+                                <!-- /.direct-chat-info -->
+                                <img class="direct-chat-img" src="../assets/profile/<?= $row['gambar'] ?>" alt="Message User Image"><!-- /.direct-chat-img -->
+                                <div class="direct-chat-text">
+                                    <?= $row['chat'] ?>
+                                </div>
+                                <!-- /.direct-chat-text -->
                             </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="../assets/profile/<?= $row['gambar'] ?>" alt="Message User Image"><!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                <?= $row['chat'] ?>
+                        <?php } else { ?>
+                            <div class="direct-chat-msg">
+                                <div class="direct-chat-info clearfix">
+                                    <span class="direct-chat-name pull-left"><?= $row['UserName'] ?></span>
+                                    <span class="direct-chat-timestamp pull-right"><?= $row['waktu'] ?></span>
+                                </div>
+                                <!-- /.direct-chat-info -->
+                                <img class="direct-chat-img" src="../assets/profile/<?= $row['gambar'] ?>" alt="Message User Image"><!-- /.direct-chat-img -->
+                                <div class="direct-chat-text">
+                                    <?= $row['chat'] ?>
+                                </div>
+                                <!-- /.direct-chat-text -->
                             </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
+                        <?php } ?>
                         <?php $i++; ?>
                     <?php endforeach; ?>
                     <!-- Message to the right -->
-                    <?php $i = 1; ?>
-                    <?php foreach ($chat_selft as $row) : ?>
-                        <div class="direct-chat-msg right">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-right"> <span class="direct-chat-timestamp pull-left"><?= $row['UserName'] ?></span>
-                                </span>
-                                <span class="direct-chat-timestamp pull-left"><?= $row['waktu'] ?></span>
-                            </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="../assets/profile/<?= $row['gambar'] ?>" alt="Message User Image"><!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                <?= $row['chat'] ?>
-                            </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
-                        <?php $i++; ?>
-                    <?php endforeach; ?>
                 </div>
             </div>
             <div class="box-footer">
