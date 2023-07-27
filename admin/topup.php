@@ -70,6 +70,14 @@ $fbelumdibayar = number_format($hutang['TotalP'] - $bayar['TotalB'], 0, ',', '.'
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-white" href="./leaderboard.php">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">leaderboard</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Leader Board</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white " href="./gallery.php">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">photo_library</i>
@@ -225,7 +233,7 @@ $fbelumdibayar = number_format($hutang['TotalP'] - $bayar['TotalB'], 0, ',', '.'
                         <div class="card">
                             <div class="row d-flex">
                                 <div class="col-12 d-flex justify-content-center mt-3">
-                                    <img src="../assets/profile/<?= $row['gambar'] ?>" style="max-width: 75px; max-height:75px; border-radius:50%" alt="profile">
+                                    <img src="../assets/profile/<?= $row['gambar'] ?>" style="max-width: 75px; max-height:75px;" alt="profile">
                                 </div>
                                 <div class="col-12 m-3">
                                     <table>
