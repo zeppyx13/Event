@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin'])) {
 $email = $_SESSION['email'];
 $user = query("SELECT * FROM user WHERE Email = '$email'")[0];
 $season = query("SELECT * FROM deadline ORDER BY season DESC")[0];
-$folder = query("SELECT * FROM folder");
+$users = query("SELECT * FROM user WHERE Email != 'gungnanda14@gmail.com'");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,21 +21,14 @@ $folder = query("SELECT * FROM folder");
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        JB Pay || Gallery
+        JB Pay || LeaderBoard
     </title>
-    <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <!-- Nucleo Icons -->
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
 
@@ -120,16 +113,11 @@ $folder = query("SELECT * FROM folder");
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Gallery</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Leader Board</li>
                     </ol>
-                    <h6 class="font-weight-bolder mb-0">Photo</h6>
+                    <h6 class="font-weight-bolder mb-0">Dashboard</h6>
                 </nav>
                 <ul class="navbar-nav  justify-content-end">
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="../assets/pages/add.folder.php">
-                            <button class="btn btn-success btn-sm mb-0 me-3">add Folder</button>
-                        </a>
-                    </li>
                     <li class="nav-item d-flex align-items-center">
                         <button class="btn btn-outline-primary btn-sm mb-0 me-3">Season <?= $season['season'] ?> : <?= $season['tanggal'] ?>-<?= $season['bulan'] ?>-<?= $season['tahun'] ?></button>
                     </li>
@@ -160,57 +148,52 @@ $folder = query("SELECT * FROM folder");
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <?php foreach ($folder as $folder) : ?>
-                    <?php
-                    $id_folder = $folder['id'];
-                    $foto = query("SELECT * FROM foto WHERE id_folder = '$id_folder' LIMIT 6");
-                    ?>
-                    <div class="col-12">
-                        <div class="card my-4">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                    <h6 class="text-white text-capitalize ps-3"><?= $folder['Nama_Folder'] ?></h6>
-                                </div>
-                            </div>
-                            <div class="card-body d-flex justify-content-center px-0 pb-2">
-                                <div class="row ms-4">
-                                    <?php foreach ($foto as $foto) : ?>
-                                        <div class="col-md-3 mb-4 mt-4 ms-4">
-                                            <img class="ms-4" style="max-width: 200px; max-height:200px;" src="../assets/gallery/<?= $foto['foto'] ?>" alt="<?= $foto['foto'] ?>" srcset="">
-                                        </div>
-                                    <?php endforeach; ?>
-                                    <hr class="dark horizontal mb-2 my-0">
-                                    <div class=" mt-2 footer d-flex justify-content-start">
-                                        <a class="me-4" target="_blank" href="<?= $folder['link'] ?>">More Photo's</a>
-                                        <div class="action ms-auto">
-                                            <a href="../assets/pages/edit.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">edit</i></a>
-                                            <a onclick="return confirm('Yakin ingin menghapus Folder')" href="../assets/pages/delete.folder.php?id_folder=<?= $folder['id'] ?>"><i class=" material-icons opacity-100">delete</i></a>
-                                            <a style="margin-left: 50px; margin-right:15px" href="../assets/pages/detail.foto.php?id_folder=<?= $folder['id'] ?>"><i class="material-icons opacity-100">info</i><sup>DETAIL FOTO</sup></sup></a>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="d-flex justify-content-start text-white text-capitalize ps-3"><i class="material-icons opacity-10">leaderboard</i> Leader Board</h6>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <footer class="footer py-4 mt-6">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                ©
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="https://gungnanda.com" class="font-weight-bold" target="_blank">Gung Nanda</a>
-                                for a better web.
+                        <div class="card-body px-0 pb-2">
+                            <div id="container" class=" table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-black  text-center font-weight-bolder">RANK</th>
+                                            <th class="text-black font-weight-bolder"></th>
+                                            <th class="text-black font-weight-bolder"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="leaderboard" class="container">
+                                        <tr>
+                                            <!-- scores will be inserted by the script here -->
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </div>
+        <footer class="footer py-4 mt-6">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                        <div class="copyright text-center text-sm text-muted text-lg-start">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>,
+                            made with <i class="fa fa-heart"></i> by
+                            <a href="https://gungnanda.com" class="font-weight-bold" target="_blank">Gung Nanda</a>
+                            for a better web.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
         </div>
     </main>
     <!-- seting ui -->
@@ -280,6 +263,72 @@ $folder = query("SELECT * FROM folder");
     <script src="../assets/js/core/bootstrap.min.js"></script>
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+        let scores = [
+            <?php $i = 1; ?>
+            <?php foreach ($users as $row) : ?>
+                <?php
+                $id =  $row['id'];
+                $qhutang = query("SELECT SUM(hutang) AS TotalP,SUM(bayar) AS TotalB FROM hutang WHERE Id_user = $id")[0];
+                ?> {
+                    img: "<?= $row['gambar'] ?>",
+                    name: "<?= $row['UserName'] ?>",
+                    score: <?= $qhutang['TotalP'] - $qhutang['TotalB'] ?>
+                },
+                <?php $i++; ?>
+            <?php endforeach; ?>
+        ];
+
+        function updateLeaderboardView() {
+            let leaderboard = document.getElementById("leaderboard");
+            leaderboard.innerHTML = "";
+
+            scores.sort(function(a, b) {
+                return b.score - a.score
+            });
+            let elements = []; // we'll need created elements to update colors later on
+            // create elements for each player
+            for (let i = 0; i < scores.length; i++) {
+                console.log(i);
+                let rank = document.createElement("td");
+                let name = document.createElement("td");
+                let imgcover = document.createElement("td");
+                let score = document.createElement("td");
+                let img = document.createElement("img");
+                rank.classList.add("rank", "text-center", "text-black");
+                name.classList.add("name", "text-black");
+                score.classList.add("score", "text-black", "d-none");
+                rank.innerText = i + 1;
+                img.src = "../assets/profile/" + scores[i].img;
+                img.alt = scores[i].name;
+                img.width = 50;
+                img.height = 50;
+                imgcover.appendChild(img);
+                name.innerText = scores[i].name;
+                score.innerText = scores[i].score;
+
+                let scoreRow = document.createElement("tr");
+                scoreRow.appendChild(rank);
+                scoreRow.appendChild(imgcover);
+                scoreRow.appendChild(name);
+                scoreRow.appendChild(score);
+                leaderboard.appendChild(scoreRow);
+
+                elements.push(scoreRow);
+
+            }
+
+            let colors = ["gold", "silver", "#cd7f32"];
+            for (let i = 0; i < 3; i++) {
+                elements[i].style.backgroundColor = colors[i];
+                elements[i].style.fontWeight = "Bold";
+                elements[i].style.color = "BLACK";
+
+            }
+        }
+
+        updateLeaderboardView();
+    </script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
