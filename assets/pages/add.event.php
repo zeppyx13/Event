@@ -99,7 +99,7 @@ if (isset($_POST['add'])) {
                                 </div>
                                 <div class="col-md-3 form-group mb-3">
                                     <label for="kegiatan" class="col-form-label">Kegiatan :</label>
-                                    <input required autocomplete="off" type="text" class="form-control" name="kegiatan" id="kegiatan" placeholder="kegiatan ytang di lakukan">
+                                    <input required autocomplete="off" type="text" class="form-control" name="kegiatan" id="kegiatan" placeholder="kegiatan yang di lakukan">
                                 </div>
                             </div>
                             <div class="row">

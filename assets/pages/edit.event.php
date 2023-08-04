@@ -18,13 +18,13 @@ if (isset($_POST['add'])) {
     if (updateevent($_POST) > 0) {
         if ($akses['Event'] == 'TRUE') {
             echo "<script>
-            alert('Event di tambahkan');
+            alert('Event di ubah');
             document.location.href='../../dashboard/event.php';
             </script>
             ";
         } else {
             echo "<script>
-            alert('Event di tambahkan');
+            alert('Event di ubah');
             document.location.href='../../admin/event.php';
             </script>
             ";
