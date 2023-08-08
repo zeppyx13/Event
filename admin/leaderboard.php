@@ -323,7 +323,6 @@ $users = query("SELECT * FROM user WHERE Email != 'gungnanda14@gmail.com'");
                 elements[i].style.backgroundColor = colors[i];
                 elements[i].style.fontWeight = "Bold";
                 elements[i].style.color = "BLACK";
-
             }
         }
 

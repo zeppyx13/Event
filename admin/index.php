@@ -267,25 +267,42 @@ $fbelumdibayar = number_format($hutang['TotalP'] - $bayar['TotalB'], 0, ',', '.'
         </div>
       </div>
       <!-- user info -->
-      <div class="row">
+      <div class="row mt-4">
         <?php $i = 1; ?>
         <?php foreach ($users as $row) : ?>
-          <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+          <div class="col-lg-6 col-md-6 col-sm-6 mb-4 contact-fluid">
             <div class="card">
-              <div class="col-md-3 m-3 d-flex align-items-center">
-                <img src="../assets/profile/<?= $row['gambar'] ?>" style="max-width: 100px; max-height: 100px; border-radius:50%" alt="profile">
-                <table style="margin-left: 20px;">
-                  <tr>
-                    <td><strong>User Name</strong></td>
-                    <td><strong style="margin-right: 5px;">:</strong></td>
-                    <td><?= $row['UserName'] ?></td>
-                  </tr>
-                  <tr>
-                    <td><strong>Email</strong></td>
-                    <td><strong style="margin-right: 5px;">:</strong></td>
-                    <td><?= $row['Email'] ?></td>
-                  </tr>
-                </table>
+              <div class="row d-flex">
+                <div class="col-12 d-flex justify-content-center mt-3">
+                  <img src="../assets/profile/<?= $row['gambar'] ?>" style="max-width: 75px; max-height:75px;" alt="profile">
+                </div>
+                <div class="col-12 m-3">
+                  <table>
+                    <tr>
+                      <td><strong>User Name</strong></td>
+                      <td><strong>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</strong></td>
+                      <td><?= $row['UserName'] ?></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Email</strong></td>
+                      <td><strong>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</strong></td>
+                      <br>
+                      <td><?= $row['Email'] ?></td>
+                    </tr>
+                    <?php
+                    $id =  $row['id'];
+                    $qhutang = query("SELECT SUM(hutang) AS TotalP,SUM(bayar) AS TotalB FROM hutang WHERE Id_user = $id")[0];
+                    $hutang = $qhutang['TotalP'] - $qhutang['TotalB'];
+                    $fhutang = number_format($hutang, 0, ',', '.');
+                    ?>
+                    <tr>
+                      <td><strong>Paylater</strong></td>
+                      <td><strong>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</strong></td>
+                      <br>
+                      <td>Rp. <?= $fhutang ?></td>
+                    </tr>
+                  </table>
+                </div>
               </div>
               <hr class="dark horizontal my-0">
               <footer style="text-decoration: none;">

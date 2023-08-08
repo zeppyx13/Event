@@ -96,6 +96,7 @@ function adduser($data)
     $hutang = $data['hutang'];
     $bayar = $data['bayar'];
     $confirm = $data['metode'];
+    $confirm2 = $data['transaksi'];
     $keterangan = $data['ket'];
     if ($lokasi == 'bkn') {
         echo "
@@ -105,15 +106,27 @@ function adduser($data)
         ";
         return false;
     }
-    if ($confirm == 'ada') {
-        $gambar = bukti();
-        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$gambar','$keterangan')";
+    if ($confirm == 'ada' && $confirm2 == 'gk') {
+        $pembayaran = bukti();
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$pembayaran','','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'gk' && $confirm2 == 'ada') {
+        $transaksi = transaksi();
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','','$transaksi','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'ada' && $confirm2 == 'ada') {
+        $transaksi = transaksi();
+        $pembayaran = bukti();
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$pembayaran','$transaksi','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } else {
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','','','$keterangan')";
         mysqli_query($konek, $query);
         return mysqli_affected_rows($konek);
     }
-    $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','','$keterangan')";
-    mysqli_query($konek, $query);
-    return mysqli_affected_rows($konek);
     exit;
 }
 // edit hutang user
@@ -436,6 +449,45 @@ function bukti()
     $namafilebaru .= '.';
     $namafilebaru .= $ekstensigambar;
     move_uploaded_file($tmpName, '../bukti/' . $namafilebaru);
+    return $namafilebaru;
+}
+function transaksi()
+{
+    $namafile = $_FILES['bukti_transaksi']['name'];
+    $ukuranfile = $_FILES['bukti_transaksi']['size'];
+    $error = $_FILES['bukti_transaksi']['error'];
+    $tmpName = $_FILES['bukti_transaksi']['tmp_name'];
+    if ($error === 4) {
+        echo "
+        <script>
+        alert('insert image')
+        </script>
+        ";
+        return false;
+    }
+    $filegambar = ['jpg', 'jpeg', 'png', 'jfif', 'raw', 'webp', 'img'];
+    $ekstensigambar = explode('.', $namafile);
+    $ekstensigambar = strtolower(end($ekstensigambar));
+    if (!in_array($ekstensigambar, $filegambar)) {
+        echo "
+        <script>
+        alert('file not supported')
+        </script>
+        ";
+        return false;
+    }
+    if ($ukuranfile > 11000000) {
+        echo "
+        <script>
+        alert('file size not supported ')
+        </script>
+        ";
+        return false;
+    }
+    $namafilebaru = uniqid();
+    $namafilebaru .= '.';
+    $namafilebaru .= $ekstensigambar;
+    move_uploaded_file($tmpName, '../bukti_transaksi/' . $namafilebaru);
     return $namafilebaru;
 }
 // function foto

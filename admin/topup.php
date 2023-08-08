@@ -246,7 +246,7 @@ $fbelumdibayar = number_format($hutang['TotalP'] - $bayar['TotalB'], 0, ',', '.'
                                             <td><strong>Email</strong></td>
                                             <td><strong>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</strong></td>
                                             <br>
-                                            <td>gusdeupadana16@gmail.com</td>
+                                            <td><?= $row['Email'] ?></td>
                                         </tr>
                                     </table>
                                 </div>

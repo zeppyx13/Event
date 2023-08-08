@@ -128,7 +128,8 @@ $user = query("SELECT * FROM user WHERE id = '$id' ")[0];
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Tempat</th>
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Tanggal</th>
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Keterangan</th>
-                                            <th class="text-center text-uppercase text-black font-weight-bolder">Bukti</th>
+                                            <th class="text-center text-uppercase text-black font-weight-bolder">Bukti_Pembayaran</th>
+                                            <th class="text-center text-uppercase text-black font-weight-bolder">bukti_transaksi</th>
                                             <th class="text-center text-uppercase text-black font-weight-bolder">Action</th>
                                         </tr>
                                     </thead>
@@ -148,7 +149,14 @@ $user = query("SELECT * FROM user WHERE id = '$id' ")[0];
                                                 <td class="text-center text-black"><?= $row['keterangan'] ?></td>
                                                 <?php if ($row['bukti'] != NULL) { ?>
                                                     <td class="text-center text-black">
-                                                        <a target="_blank" href="../bukti/<?= $row['bukti'] ?>">Bukti</a>
+                                                        <a target="_blank" href="../bukti/<?= $row['bukti'] ?>">Bukti_Pembayaran</a>
+                                                    </td>
+                                                <?php } else { ?>
+                                                    <td class="text-center text-black">-</td>
+                                                <?php } ?>
+                                                <?php if ($row['transaksi'] != NULL) { ?>
+                                                    <td class="text-center text-black">
+                                                        <a target="_blank" href="../bukti_transaksi/<?= $row['transaksi'] ?>">Bukti_Transaksi</a>
                                                     </td>
                                                 <?php } else { ?>
                                                     <td class="text-center text-black">-</td>
