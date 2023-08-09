@@ -13,6 +13,8 @@ $iduser = $userquery['Id_user'];
 $lokasisblm = query("SELECT * FROM lokasi WHERE Id_lokasi = '$idtempat'")[0];
 $usersblm = query("SELECT * FROM user WHERE id = '$iduser'")[0];
 $lokasi = query("SELECT * FROM lokasi WHERE Id_lokasi != '$idtempat'");
+$fototransaksi = query("SELECT DISTINCT transaksi FROM hutang WHERE transaksi != '' ");
+$fotobukti = query("SELECT DISTINCT bukti FROM hutang WHERE bukti != ''");
 if (isset($_POST['add'])) {
     if (edituser($_POST) > 0) {
         echo "<script>
@@ -88,59 +90,377 @@ if (isset($_POST['add'])) {
                                     <input required autocomplete="off" type="text" class="form-control" name="ket" id="waktu" placeholder="keterangan pembayaran" value="<?= $userquery['keterangan'] ?>">
                                 </div>
                             </div>
-                            <?php
-                            if ($userquery['bukti'] == NULL) {
-                            ?>
+                            <?php if ($userquery['bukti'] == NULL && $userquery['transaksi'] == NULL) { ?>
                                 <div class="row">
-                                    <div class="col-md-12 form-group mt-4 mb-4">
-                                        <label for="waktu" class="col-form-label">Pembayaran? :</label>
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Pembayaran? :</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios4" onclick="tambah()" value="ada">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios1" onclick="tambah()" value="ada">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input checked class="form-check-input" type="radio" name="metode" id="exampleRadios2" onclick="Hilang()" value="gk">
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Tidak ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios3" onclick="old()" value="old">
+                                            <label class="form-check-label" for="exampleRadios3">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Transaksi :</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios4" onclick="tambah_transaksi()" value="ada">
                                             <label class="form-check-label" for="exampleRadios4">
                                                 Ada
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input checked class="form-check-input" type="radio" name="metode" id="exampleRadios5" onclick="Hilang()" value="gk">
+                                            <input checked class="form-check-input" type="radio" name="transaksi" id="exampleRadios5" onclick="Hilang_transaksi()" value="gk">
                                             <label class="form-check-label" for="exampleRadios5">
                                                 Tidak ada
                                             </label>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="file row d-none">
-                                    <div class="col-md-12 form-group mt-4 mb-4">
-                                        <label for="bukti" class="col-form-label">Bukti Pembayaran :</label>
-                                        <input autocomplete="off" type="File" class="form-control" accept=".IMG,.JPG,.JPEG,.HEIC,.PNG" name="bukti" id="bukti">
-                                    </div>
-                                </div>
-                            <?php } else { ?>
-                                <div class="row">
-                                    <div class="col-md-12 form-group mt-4 mb-4">
-                                        <label for="waktu" class="col-form-label">Pembayaran? :</label>
                                         <div class="form-check">
-                                            <input checked class="form-check-input" type="radio" name="metode" id="exampleRadios4" onclick="tambah()" value="ada">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios6" onclick="old_transaksi()" value="old">
+                                            <label class="form-check-label" for="exampleRadios6">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- upload bukti pembayaran -->
+                                    <div class="file col-md-6 form-group d-none">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Pembayaran :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti pembayaran -->
+                                    <div class="old_bukti col-md-6 form-group  d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6?>Foto Bukti Pembayaran :</h6>
+                                        </label>
+                                        <?php foreach ($fotobukti as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_bukti form-check-input" type="radio" name="old_bukti" id="<?= $row['bukti']; ?>" value="<?= $row['bukti']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['bukti']; ?>">
+                                                    <img src="../bukti/<?= $row['bukti']; ?>" alt="<?= $row['bukti']; ?>" width="100" height="100">
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
+                                    <!-- upload file transaksi -->
+                                    <div class="file_transaksi col-md-6 form-group d-none">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Transaksi :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti_transaksi" id="bukti_transaksi">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti transaksi -->
+                                    <div class="old_transaksi col-md-6 form-group d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6>Foto Bukti Transaksi :</h6>
+                                        </label>
+                                        <?php foreach ($fototransaksi as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_lama form-check-input" type="radio" name="old_transaki" id="<?= $row['transaksi']; ?>" value="<?= $row['transaksi']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['transaksi']; ?>">
+                                                    <a href="../bukti_transaksi/<?= $row['transaksi']; ?>" target="_blank" rel="noopener noreferrer"><img src="../bukti_transaksi/<?= $row['transaksi']; ?>" alt="" width="100" height="100"></a>
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
+                                </div>
+                            <?php } elseif ($userquery['bukti'] != NULL && $userquery['transaksi'] == NULL) { ?>
+                                <div class="row">
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Pembayaran? :</label>
+                                        <div class="form-check">
+                                            <input checked class="form-check-input" type="radio" name="metode" id="exampleRadios1" onclick="tambah()" value="ada">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios2" onclick="Hilang()" value="gk">
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Tidak ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios3" onclick="old()" value="old">
+                                            <label class="form-check-label" for="exampleRadios3">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Transaksi :</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios4" onclick="tambah_transaksi()" value="ada">
                                             <label class="form-check-label" for="exampleRadios4">
                                                 Ada
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios5" onclick="Hilang()" value="gk">
+                                            <input checked class="form-check-input" type="radio" name="transaksi" id="exampleRadios5" onclick="Hilang_transaksi()" value="gk">
                                             <label class="form-check-label" for="exampleRadios5">
                                                 Tidak ada
                                             </label>
                                         </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios6" onclick="old_transaksi()" value="old">
+                                            <label class="form-check-label" for="exampleRadios6">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="file row">
-                                    <input class="d-none" type="text" name="buktiold" value="<?= $userquery['bukti'] ?>">
-                                    <div class="col-md-4 form-group mt-4 d-flex justify-content-center">
-                                        <a href="../bukti/<?= $userquery['bukti'] ?>" target="_blank" rel="noopener noreferrer"><img style="max-width: 70%; max-height:100%;" src="../bukti/<?= $userquery['bukti'] ?>" alt=""></a>
+                                <div class="row">
+                                    <!-- upload bukti pembayaran -->
+                                    <div class="file col-md-6 form-group">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Pembayaran :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
                                     </div>
-                                    <div class="col-md-8 form-group mt-3">
-                                        <label for="bukti" class="col-form-label">Bukti Pembayaran :</label>
-                                        <input accept=".IMG,.JPG,.JPEG,.PNG," autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                    <!--  -->
+                                    <!-- foto bukti pembayaran -->
+                                    <div class="old_bukti col-md-6 form-group  d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6?>Foto Bukti Pembayaran :</h6>
+                                        </label>
+                                        <?php foreach ($fotobukti as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_bukti form-check-input" type="radio" name="old_bukti" id="<?= $row['bukti']; ?>" value="<?= $row['bukti']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['bukti']; ?>">
+                                                    <img src="../bukti/<?= $row['bukti']; ?>" alt="<?= $row['bukti']; ?>" width="100" height="100">
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
+                                    <!--  -->
+                                    <!-- upload file transaksi -->
+                                    <div class="file_transaksi col-md-6 form-group d-none">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Transaksi :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti_transaksi" id="bukti_transaksi">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti transaksi -->
+                                    <div class="old_transaksi col-md-6 form-group d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6>Foto Bukti Transaksi :</h6>
+                                        </label>
+                                        <?php foreach ($fototransaksi as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_lama form-check-input" type="radio" name="old_transaki" id="<?= $row['transaksi']; ?>" value="<?= $row['transaksi']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['transaksi']; ?>">
+                                                    <a href="../bukti_transaksi/<?= $row['transaksi']; ?>" target="_blank" rel="noopener noreferrer"><img src="../bukti_transaksi/<?= $row['transaksi']; ?>" alt="" width="100" height="100"></a>
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
+                                </div>
+                            <?php } elseif ($userquery['bukti'] == NULL && $userquery['transaksi'] != NULL) { ?>
+                                <div class="row">
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Pembayaran? :</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios1" onclick="tambah()" value="ada">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input checked class="form-check-input" type="radio" name="metode" id="exampleRadios2" onclick="Hilang()" value="gk">
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Tidak ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios3" onclick="old()" value="old">
+                                            <label class="form-check-label" for="exampleRadios3">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Transaksi :</label>
+                                        <div class="form-check">
+                                            <input checked class="form-check-input" type="radio" name="transaksi" id="exampleRadios4" onclick="tambah_transaksi()" value="ada">
+                                            <label class="form-check-label" for="exampleRadios4">
+                                                Ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios5" onclick="Hilang_transaksi()" value="gk">
+                                            <label class="form-check-label" for="exampleRadios5">
+                                                Tidak ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios6" onclick="old_transaksi()" value="old">
+                                            <label class="form-check-label" for="exampleRadios6">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- upload bukti pembayaran -->
+                                    <div class="file col-md-6 form-group d-none">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Pembayaran :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti pembayaran -->
+                                    <div class="old_bukti col-md-6 form-group  d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6?>Foto Bukti Pembayaran :</h6>
+                                        </label>
+                                        <?php foreach ($fotobukti as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_bukti form-check-input" type="radio" name="old_bukti" id="<?= $row['bukti']; ?>" value="<?= $row['bukti']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['bukti']; ?>">
+                                                    <img src="../bukti/<?= $row['bukti']; ?>" alt="<?= $row['bukti']; ?>" width="100" height="100">
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
+                                    <!-- upload file transaksi -->
+                                    <div class="file_transaksi col-md-6 form-group">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Transaksi :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti_transaksi" id="bukti_transaksi">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti transaksi -->
+                                    <div class="old_transaksi col-md-6 form-group d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6>Foto Bukti Transaksi :</h6>
+                                        </label>
+                                        <?php foreach ($fototransaksi as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_lama form-check-input" type="radio" name="old_transaki" id="<?= $row['transaksi']; ?>" value="<?= $row['transaksi']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['transaksi']; ?>">
+                                                    <a href="../bukti_transaksi/<?= $row['transaksi']; ?>" target="_blank" rel="noopener noreferrer"><img src="../bukti_transaksi/<?= $row['transaksi']; ?>" alt="" width="100" height="100"></a>
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
+                                </div>
+                            <?php } elseif ($userquery['bukti'] != NULL && $userquery['transaksi'] != NULL) { ?>
+                                <div class="row">
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Pembayaran? :</label>
+                                        <div class="form-check">
+                                            <input checked class="form-check-input" type="radio" name="metode" id="exampleRadios1" onclick="tambah()" value="ada">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios2" onclick="Hilang()" value="gk">
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Tidak ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="metode" id="exampleRadios3" onclick="old()" value="old">
+                                            <label class="form-check-label" for="exampleRadios3">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group mt-4 mb-4">
+                                        <label for="waktu" class="col-form-label">Bukti Transaksi :</label>
+                                        <div class="form-check">
+                                            <input checked class="form-check-input" type="radio" name="transaksi" id="exampleRadios4" onclick="tambah_transaksi()" value="ada">
+                                            <label class="form-check-label" for="exampleRadios4">
+                                                Ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios5" onclick="Hilang_transaksi()" value="gk">
+                                            <label class="form-check-label" for="exampleRadios5">
+                                                Tidak ada
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="transaksi" id="exampleRadios6" onclick="old_transaksi()" value="old">
+                                            <label class="form-check-label" for="exampleRadios6">
+                                                Foto Yang Sama
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- upload bukti pembayaran -->
+                                    <div class="file col-md-6 form-group">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Pembayaran :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti" id="bukti">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti pembayaran -->
+                                    <div class="old_bukti col-md-6 form-group  d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6?>Foto Bukti Pembayaran :</h6>
+                                        </label>
+                                        <?php foreach ($fotobukti as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_bukti form-check-input" type="radio" name="old_bukti" id="<?= $row['bukti']; ?>" value="<?= $row['bukti']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['bukti']; ?>">
+                                                    <img src="../bukti/<?= $row['bukti']; ?>" alt="<?= $row['bukti']; ?>" width="100" height="100">
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
+                                    <!-- upload file transaksi -->
+                                    <div class="file_transaksi col-md-6 form-group">
+                                        <label for="bukti" class="col-form-label">
+                                            <h6>Bukti Transaksi :</h6>
+                                        </label>
+                                        <input accept=".IMG,.JPG,.JPEG,.PNG," required autocomplete="off" type="File" class="form-control" name="bukti_transaksi" id="bukti_transaksi">
+                                    </div>
+                                    <!--  -->
+                                    <!-- foto bukti transaksi -->
+                                    <div class="old_transaksi col-md-6 form-group d-none">
+                                        <label for="waktu" class="col-form-label">
+                                            <h6>Foto Bukti Transaksi :</h6>
+                                        </label>
+                                        <?php foreach ($fototransaksi as $row) : ?>
+                                            <div class="form-check">
+                                                <input checked class="foto_lama form-check-input" type="radio" name="old_transaki" id="<?= $row['transaksi']; ?>" value="<?= $row['transaksi']; ?>">
+                                                <label class="form-check-label m-4" for="<?= $row['transaksi']; ?>">
+                                                    <a href="../bukti_transaksi/<?= $row['transaksi']; ?>" target="_blank" rel="noopener noreferrer"><img src="../bukti_transaksi/<?= $row['transaksi']; ?>" alt="" width="100" height="100"></a>
+                                                </label>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <!--  -->
                                 </div>
                             <?php } ?>
                             <div class="row">
@@ -175,12 +495,55 @@ if (isset($_POST['add'])) {
         const file = document.querySelector('.file');
         const inputF = document.getElementById('bukti')
 
+        const file_transaksi = document.querySelector('.file_transaksi');
+        const inputF_transaksi = document.getElementById('bukti_transaksi')
+
+        const old_trnski = document.querySelector('.old_transaksi')
+        const foto_lama = document.querySelector('.foto_lama')
+
+        const foto_bukti = document.querySelector('.foto_bukti')
+        const old_bukti = document.querySelector('.old_bukti')
+
         function Hilang() {
             file.classList.add('d-none');
+            inputF.removeAttribute('required');
+            old_bukti.classList.add('d-none');
+            foto_bukti.removeAttribute('required');
+        }
+
+        function Hilang_transaksi() {
+            file_transaksi.classList.add('d-none');
+            old_trnski.classList.add('d-none');
+            inputF_transaksi.removeAttribute('required');
+            foto_lama.removeAttribute('required');
+        }
+
+        function old_transaksi() {
+            file_transaksi.classList.add('d-none');
+            inputF_transaksi.removeAttribute('required');
+            old_trnski.classList.remove('d-none');
+            foto_lama.setAttribute('required', '');
+        }
+
+        function old() {
+            file.classList.add('d-none');
+            inputF.removeAttribute('required');
+            old_bukti.classList.remove('d-none');
+            foto_bukti.setAttribute('required', '');
         }
 
         function tambah() {
             file.classList.remove('d-none');
+            old_bukti.classList.add('d-none');
+            inputF.setAttribute('required', '');
+            foto_bukti.removeAttribute('required');
+        }
+
+        function tambah_transaksi() {
+            file_transaksi.classList.remove('d-none');
+            old_trnski.classList.add('d-none');
+            inputF_transaksi.setAttribute('required', '');
+            foto_lama.removeAttribute('required');
         }
     </script>
 </body>
