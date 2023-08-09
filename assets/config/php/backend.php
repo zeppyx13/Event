@@ -122,6 +122,34 @@ function adduser($data)
         $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$pembayaran','$transaksi','$keterangan')";
         mysqli_query($konek, $query);
         return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'old' && $confirm2 == 'ada') {
+        $transaksi = transaksi();
+        $old_bukti = $data['old_bukti'];
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$old_bukti','$transaksi','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'ada' && $confirm2 == 'old') {
+        $pembayaran = bukti();
+        $old_transaksi = $data['old_transaki'];
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$pembayaran','$old_transaksi','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'gk' && $confirm2 == 'old') {
+        $old_transaksi = $data['old_transaki'];
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','','$old_transaksi','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'old' && $confirm2 == 'gk') {
+        $old_bukti = $data['old_bukti'];
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$old_bukti','','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
+    } elseif ($confirm == 'old' && $confirm2 == 'old') {
+        $old_transaksi = $data['old_transaki'];
+        $old_bukti = $data['old_bukti'];
+        $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','$old_bukti','$old_transaksi','$keterangan')";
+        mysqli_query($konek, $query);
+        return mysqli_affected_rows($konek);
     } else {
         $query = "INSERT INTO hutang VALUES('','$user','$lokasi','$hutang','$bayar','','','$keterangan')";
         mysqli_query($konek, $query);
